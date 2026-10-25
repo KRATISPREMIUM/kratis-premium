@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KRATIS PREMIUM | Travel, Data, Real Estate</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<style>*{font-family:Inter,sans-serif}</style>
+</head>
+<body class="bg-[#F7F7F8] text-black">
+<header class="bg-black text-white p-4 flex justify-between items-center sticky top-0 z-50">
+<div class="font-extrabold text-xl">KRATIS <span class="text-yellow-400">PREMIUM</span></div>
+<div class="flex gap-2">
+<button onclick="showTab('travel')" class="bg-yellow-400 text-black px-3 py-1 rounded text-sm font-bold">Travel</button>
+<button onclick="showTab('data')" class="bg-white text-black px-3 py-1 rounded text-sm">Data</button>
+<button onclick="showTab('estate')" class="bg-white text-black px-3 py-1 rounded text-sm">Estate</button>
+</div>
+</header>
+
+<!-- TRAVEL & TOUR - HOMEPAGE -->
+<div id="travel" class="tab">
+<div class="bg-black text-white p-6">
+<h1 class="text-3xl font-extrabold">Travel & Tour.<br><span class="text-yellow-400">Everything Travel.</span></h1>
+<p class="opacity-70 text-sm mt-2">Flights, Hotels, Tours, Visa Assistance with dedicated agent & live chat.</p>
+<div class="grid grid-cols-2 gap-2 mt-4">
+<button onclick="openBook('Flight')" class="bg-yellow-400 text-black p-3 rounded-xl font-bold">✈️ Book Flight</button>
+<button onclick="openBook('Hotel')" class="bg-white text-black p-3 rounded-xl font-bold">🏨 Hotel</button>
+<button onclick="openBook('Tour')" class="bg-zinc-800 text-white p-3 rounded-xl">🌍 Tour Package</button>
+<button onclick="openBook('Visa')" class="bg-zinc-800 text-white p-3 rounded-xl">🛂 Visa Help</button>
+</div>
+</div>
+
+<div class="p-4 grid gap-3 max-w-5xl mx-auto">
+<div class="bg-white rounded-2xl p-4 shadow">
+<h2 class="font-bold">Create Account / Agent Registration</h2>
+<p class="text-xs opacity-60">Register as Customer (Free), Agent (GHS 150), Dealer (GHS 500) - Different pricing unlocked.</p>
+<select id="role" class="w-full border p-3 rounded-lg mt-2">
+<option value="Customer">Customer - Free (Retail Price)</option>
+<option value="Agent">Agent - GHS 150 Fee (Discount 5%)</option>
+<option value="Dealer">Dealer - GHS 500 Fee (Discount 12%)</option>
+</select>
+<input id="regName" placeholder="Full Name" class="w-full border p-3 rounded-lg mt-2">
+<input id="regPhone" placeholder="WhatsApp Number" class="w-full border p-3 rounded-lg mt-2">
+<button onclick="register()" class="bg-black text-white w-full p-3 rounded-xl mt-2 font-bold">Create Account & Pay Fee</button>
+<p id="regStatus" class="text-xs mt-2 text-green-600"></p>
+</div>
+
+<div class="bg-white rounded-2xl p-4 shadow">
+<h2 class="font-bold">Visa Assistance Portal - Live Agent</h2>
+<p class="text-xs opacity-60">After registration, an agent is assigned to you. Chat live.</p>
+<div class="bg-gray-100 rounded-lg p-3 mt-2 h-24 overflow-auto text-xs" id="chatBox">Agent: Hello! I'm your assigned KRATIS travel assistant. How can I help with your visa/flight? [This will become real live chat with Tawk.to API]</div>
+<input id="chatInput" placeholder="Type your question..." class="w-full border p-2 rounded mt-2 text-sm">
+<button onclick="sendChat()" class="bg-yellow-400 px-4 py-2 rounded font-bold text-sm mt-1">Send</button>
+</div>
+
+<div class="bg-white rounded-2xl p-4 shadow">
+<h2 class="font-bold">Active Bookings</h2>
+<div id="bookingList" class="text-sm mt-2">No bookings yet.</div>
+</div>
+</div>
+</div>
+
+<!-- DATA PAGE -->
+<div id="data" class="tab hidden">
+<div class="bg-black text-white p-6">
+<h1 class="text-3xl font-extrabold">Data & <span class="text-yellow-400">Digital Store</span></h1>
+<div class="flex gap-2 mt-3">
+<button onclick="setDataRegion('ghana')" id="btnGhana" class="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">Ghana GH</button>
+<button onclick="setDataRegion('international')" id="btnInt" class="bg-zinc-800 text-white px-4 py-2 rounded-full text-sm">International</button>
+</div>
+<p class="text-xs mt-2 opacity-60">Pricing changes based on your role: <span id="currentRoleDisplay">Customer</span></p>
+</div>
+<div class="p-4 max-w-5xl mx-auto grid md:grid-cols-2 gap-3">
+<div class="bg-white rounded-2xl p-4 shadow"><h3 class="font-bold">📱 MTN Data</h3><div id="mtnList" class="mt-2 text-sm"></div></div>
+<div class="bg-white rounded-2xl p-4 shadow"><h3 class="font-bold">📞 Airtime + Vodafone + AirtelTigo</h3><div id="otherList" class="mt-2 text-sm"></div></div>
+<div class="bg-white rounded-2xl p-4 shadow"><h3 class="font-bold">🎁 Gift Cards & WASSCE & Prepaid</h3><p class="text-xs opacity-60">Apple, Google, Amazon, ECG, WASSCE Checker</p><input id="giftItem" placeholder="e.g. $50 Apple Gift Card" class="w-full border p-2 rounded mt-2 text-sm"><button onclick="buyGift()" class="bg-black text-white w-full p-2 rounded mt-2 text-sm">Order</button></div>
+<div class="bg-white rounded-2xl p-4 shadow"><h3 class="font-bold">Your Orders (Stored)</h3><div id="orderList" class="text-xs mt-2">No orders yet - Ready for Hubtel API</div></div>
+</div>
+</div>
+
+<!-- ESTATE PAGE -->
+<div id="estate" class="tab hidden">
+<div class="bg-black text-white p-6"><h1 class="text-3xl font-extrabold">Real Estate <span class="text-yellow-400">Ghana</span></h1><p class="text-sm opacity-70">Verified lands, rentals, houses - Full portal</p></div>
+<div class="p-4 max-w-5xl mx-auto grid gap-3">
+<div class="bg-white rounded-2xl p-4 shadow flex justify-between"><div><b>3 Bedroom East Legon</b><br><small>GHS 1.2M - For Sale</small></div><button onclick="inquire('East Legon House')" class="bg-yellow-400 px-3 py-1 rounded font-bold text-sm">Inquire</button></div>
+<div class="bg-white rounded-2xl p-4 shadow flex justify-between"><div><b>Land - Prampram - Titled</b><br><small>GHS 45k</small></div><button onclick="inquire('Prampram Land')" class="bg-yellow-400 px-3 py-1 rounded font-bold text-sm">Inquire</button></div>
+<div class="bg-white rounded-2xl p-4 shadow"><h3 class="font-bold">Add Property Inquiry</h3><input id="estateQ" placeholder="What property do you need?" class="w-full border p-3 rounded mt-2"><button onclick="inquire(document.getElementById('estateQ').value)" class="bg-black text-white w-full p-3 rounded-xl mt-2">Send Inquiry - Saved for API</button><div id="estateList" class="text-xs mt-2"></div></div>
+</div>
+</div>
+
+<script>
+let currentRegion='ghana';
+let role=localStorage.getItem('kratis_role')||'Customer';
+document.getElementById('currentRoleDisplay').innerText=role;
+function showTab(t){
+document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));
+document.getElementById(t).classList.remove('hidden');
+}
+const prices={Customer:{'1GB':12,'5GB':45,'10GB':85},Agent:{'1GB':11,'5GB':42,'10GB':78},Dealer:{'1GB':10,'5GB':38,'10GB':71}}
+function renderData(){
+let html='';for(let k in prices[role]){let p=prices[role][k];let intExtra=currentRegion=='international'? ' + $2 intl fee':'';html+=`<div class='flex justify-between border-b py-2'><span>${k} ${currentRegion}</span><span><b>GHS ${p}${intExtra}</b> <button onclick="buyData('${k}','MTN',${p})" class='ml-2 bg-yellow-400 px-2 py-1 rounded text-xs'>Buy</button></span></div>`}document.getElementById('mtnList').innerHTML=html;document.getElementById('otherList').innerHTML=`<div class='flex justify-between border-b py-2'><span>Airtime 10 GHS</span><button onclick="buyData('Airtime 10','Vodafone',10)" class='bg-black text-white px-2 py-1 rounded text-xs'>Buy</button></div><div class='flex justify-between border-b py-2'><span>WASSCE Voucher</span><button onclick="buyGift('WASSCE')" class='bg-black text-white px-2 py-1 rounded text-xs'>Buy</button></div>`;renderOrders();
+}
+function setDataRegion(r){currentRegion=r;document.getElementById('btnGhana').className=r=='ghana'?'bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold':'bg-zinc-800 text-white px-4 py-2 rounded-full text-sm';document.getElementById('btnInt').className=r=='international'?'bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold':'bg-zinc-800 text-white px-4 py-2 rounded-full text-sm';renderData();}
+function register(){let n=document.getElementById('regName').value;let p=document.getElementById('regPhone').value;let r=document.getElementById('role').value;if(!n||!p){alert('Fill name and phone');return}localStorage.setItem('kratis_role',r);localStorage.setItem('kratis_user',JSON.stringify({name:n,phone:p,role:r}));role=r;document.getElementById('currentRoleDisplay').innerText=r;document.getElementById('regStatus').innerText='Account created as '+r+'. Fee: '+(r=='Agent'?'GHS 150 - To be paid via Paystack API':r=='Dealer'?'GHS 500 - To be paid via Paystack API':'Free')+'. Saved locally - Ready for Supabase.';renderData();}
+function buyData(pkg,net,price){let phone=prompt('Enter recipient number for '+pkg);if(!phone)return;let orders=JSON.parse(localStorage.getItem('k_orders')||'[]');orders.unshift({type:'Data',pkg,net,price,phone,region:currentRegion,role,date:new Date().toLocaleString()});localStorage.setItem('k_orders',JSON.stringify(orders));renderOrders();alert('Order saved! Later this will call Hubtel/Nalo API for '+net);}
+function buyGift(){let item=document.getElementById('giftItem').value||'Gift Card';let orders=JSON.parse(localStorage.getItem('k_orders')||'[]');orders.unshift({type:'Gift/WASSCE',pkg:item,net:'Gift',price:'TBD',phone:'email',date:new Date().toLocaleString()});localStorage.setItem('k_orders',JSON.stringify(orders));renderOrders();}
+function renderOrders(){let orders=JSON.parse(localStorage.getItem('k_orders')||'[]');let el=document.getElementById('orderList');if(!orders.length){el.innerHTML='No orders yet - Ready for Hubtel API';return}el.innerHTML=orders.map(o=>`<div class='border-b py-1'>${o.type} - ${o.pkg} - ${o.net} - GHS ${o.price} - ${o.phone} <small>${o.date}</small></div>`).join('');}
+function openBook(type){let dest=prompt('Enter details for '+type+' (e.g. Accra to London, date)');if(!dest)return;let b=JSON.parse(localStorage.getItem('k_bookings')||'[]');b.unshift({type,dest,date:new Date().toLocaleString()});localStorage.setItem('k_bookings',JSON.stringify(b));renderBookings();alert(type+' request saved - Ready for Travelport/Amadeus API');}
+function renderBookings(){let b=JSON.parse(localStorage.getItem('k_bookings')||'[]');document.getElementById('bookingList').innerHTML=b.length?b.map(x=>`<div class='border-b py-1'>${x.type}: ${x.dest} - ${x.date}</div>`).join(''):'No bookings yet.'}
+function inquire(q){if(!q)return;let e=JSON.parse(localStorage.getItem('k_estate')||'[]');e.unshift({q,date:new Date().toLocaleString()});localStorage.setItem('k_estate',JSON.stringify(e));document.getElementById('estateList').innerHTML=e.map(x=>`<div class='border-b py-1'>${x.q} - ${x.date}</div>`).join('');alert('Inquiry saved - Ready for database');}
+function sendChat(){let i=document.getElementById('chatInput');if(!i.value)return;document.getElementById('chatBox').innerHTML+=`<br>You: ${i.value}`;document.getElementById('chatBox').innerHTML+=`<br>Agent: Received! I will assist. [Tawk.to live chat will be connected here]`;i.value='';}
+renderData();renderBookings();
+</script>
+</body>
+</html>
