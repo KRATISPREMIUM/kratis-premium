@@ -1,336 +1,384 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Philisam Empire - Travel | Data | Estate | CEO Portal</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  body{background:#0a0a0a;color:#fff;font-family:Inter,system-ui}
-  .card{background:#171717;border:1px solid #262626}
-  .yellow-btn{background:#facc15;color:#000;font-weight:700}
-  .teal-btn{background:#14b8a6;color:#fff;font-weight:600}
-  .blue-btn{background:#2563eb;color:#fff}
-  .tab-active{background:#fff;color:#000}
-  ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:#333}
-</style>
-</head>
-<body>
-<!-- HEADER -->
-<div class="sticky top-0 z-50 bg-black border-b border-zinc-800 p-3 flex justify-between items-center">
-  <div class="flex gap-6 items-center">
-    <h1 class="font-black text-xl">PHILISAM<span class="text-yellow-400"> EMPIRE</span></h1>
-    <nav class="flex gap-2 text-sm">
-      <button onclick="showTab('travel')" id="btn-travel" class="px-3 py-1.5 rounded tab-active">Travel</button>
-      <button onclick="showTab('data')" id="btn-data" class="px-3 py-1.5 rounded bg-zinc-800">Data (Digimall)</button>
-      <button onclick="showTab('estate')" id="btn-estate" class="px-3 py-1.5 rounded bg-zinc-800">Estate (Zuri)</button>
-      <button onclick="showTab('ceo')" id="btn-ceo" class="px-3 py-1.5 rounded bg-zinc-800">CEO Portal</button>
-    </nav>
-  </div>
-  <div class="flex gap-4 items-center text-sm">
-    <span>Wallet: <b id="walletDisplay" class="text-yellow-400">GHS 1.10</b> <span class="text-xs text-zinc-400">USR15SF</span></span>
-    <span>PHILISAM KWABENA ADDO</span>
-  </div>
-</div>
+philisam-empire/
+├── app/
+│   ├── travel/ → Wakanow clone
+│   ├── data/ → DigiMall FULL rebuild
+│   ├── estate/ → Zuri Estate + Blog INSIDE + Agents
+│   └── ceo/ → Unified Portal for ALL bookings/orders
+├── components/
+├── lib/
+└── prisma/
+{
+  "name": "philisam-empire",
+  "scripts": { "dev": "next dev", "build": "next build" },
+  "dependencies": {
+    "next": "14.2.0",
+    "react": "18.3.0",
+    "@prisma/client": "^5.12.0",
+    "tailwindcss": "^3.4.0",
+    "lucide-react": "^0.400.0",
+    "recharts": "^2.12.0"
+  }
+}
+model User {
+  id String @id @default("USR15SF") // Your Reference USR15SF
+  email String @unique @default("addophilisa@gmail.com")
+  name String @default("Philisam Kwabena Addo")
+  wallet Float @default(1.10) // GHS 1.10 from video
+  referralCode String @default("FPDNDQ") // From video
+  referralLink String @default("https://digi-mall.app/signup?ref=FPDNDQ")
+  commissionRate Float @default(5.0) // 5%
+  orders Order[]
+  deposits Deposit[]
+}
 
-<!-- ALERT FROM VIDEO -->
-<div id="mtnAlert" class="bg-yellow-500/20 text-yellow-400 text-xs p-2 text-center">
-  MTN EXPRESS BUNDLE Delay Expected 10-60 mins — 100% delivery in 15 mins — few is waiting 7hr 30min
-</div>
+model Order {
+  id String @id // ORD-340894
+  size String // Airtel GHS 3, MTN Bundle 2GB
+  recipient String // 055119907, 055811907
+  network String // MTN, AirtelTigo, Telecel
+  status String // Delivered, Cancelled, Pending, Processing, Failed, Refunded
+  source String // Web, WhatsApp, API, Vendor Store
+  paid Boolean @default(true)
+  balBefore Float // 4.07 from video
+  amount Float // 3.00
+  balAfter Float // 1.10
+  createdAt DateTime @default(now())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
 
-<!-- TRAVEL TAB -->
-<div id="tab-travel" class="p-6">
-  <h2 class="text-2xl font-bold">Wakanow Clone - Travel Module</h2>
-  <p class="text-zinc-400">Search flights, hotels, visa — CEO Portal records Bal Before/After like Data</p>
-  <div class="card p-6 rounded-xl mt-6 grid grid-cols-4 gap-4">
-    <select class="bg-black p-3 border border-zinc-700 rounded"><option>From - Accra (ACC)</option></select>
-    <select class="bg-black p-3 border border-zinc-700 rounded"><option>To - Lagos (LOS)</option></select>
-    <input type="date" class="bg-black p-3 border border-zinc-700 rounded">
-    <button class="blue-btn p-3 rounded">Search Flights</button>
-  </div>
-  <div class="mt-6 card p-4 rounded">Travel bookings will appear in CEO Portal with Order ID TRV-xxx, Bal Before/After logic same as DigiMall ORD-xxx</div>
-</div>
+model Deposit {
+  id String @id // DEP-002225
+  amount Float // 80.00, 22.00, 157.83
+  method String // auto, manual
+  platform String // paystack, Admin-Portal
+  reference String // 138... etc
+  status String // Credited, Pending, Failed
+  balBefore Float // 120.83
+  balAfter Float // 200.83
+  handledBy String // Auto
+  createdAt DateTime
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
 
-<!-- DATA TAB - FULL DIGIMALL REBUILD FROM YOUR VIDEOS -->
-<div id="tab-data" class="hidden p-6">
-  <!-- Sub Navigation -->
-  <div class="flex gap-2 flex-wrap mb-6">
-    <button onclick="showDataSub('dashboard')" class="dataSubBtn bg-white text-black px-3 py-1 rounded text-sm">Dashboard</button>
-    <button onclick="showDataSub('wallet')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">Wallet</button>
-    <button onclick="showDataSub('mtn')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">MTN 14 Packages 90 Days</button>
-    <button onclick="showDataSub('telecel')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">Telecel 10 Packages 60 Days</button>
-    <button onclick="showDataSub('airteltigo')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">AirtelTigo 14 Packages 30 Days</button>
-    <button onclick="showDataSub('afa')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">AFA GHS 15</button>
-    <button onclick="showDataSub('vouchers')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">Vouchers</button>
-    <button onclick="showDataSub('referrals')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">Referrals FPDNDQ</button>
-    <button onclick="showDataSub('orders')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">All Orders 42</button>
-    <button onclick="showDataSub('api')" class="dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">API Docs</button>
-  </div>
+model Property {
+  id String @id
+  title String // HOT CAKE - 5-Bed House in Gbawe
+  price Float // 2505282 = GH₵ 2,505,282 / GH₵ 2.8M
+  location String // No.5 Vanderpuye St, Gbawe 0.19-acre walled compound
+  type String // Land, House, Apartment, Commercial
+  beds Int?
+  baths Int?
+  sqft Int? // 8216
+  status String // For Sale, For Rent, HOT CAKE
+  isHotCake Boolean @default(false)
+  images String[]
+  plotsPlan String? // 12plots plan
+}
 
-  <!-- DASHBOARD -->
-  <div id="data-dashboard">
-    <h2 class="text-xl font-bold">Good evening, Philisam — Your command center</h2>
-    <p class="text-zinc-400 text-sm">Track transactions, insights, and actions at a glance</p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-      <div class="card p-4 rounded"><p class="text-zinc-400 text-xs">Wallet Balance</p><h3 class="text-2xl font-bold">GHS <span class="walletVal">1.10</span></h3><p class="text-green-400 text-xs">+1.2% Total Orders 42</p></div>
-      <div class="card p-4 rounded"><p class="text-zinc-400 text-xs">Pending Orders</p><h3 class="text-2xl font-bold">0</h3><p class="text-red-400 text-xs">-2.1%</p></div>
-      <div class="card p-4 rounded"><p class="text-zinc-400 text-xs">Completed Orders</p><h3 class="text-2xl font-bold">42</h3><p class="text-green-400 text-xs">+1.6%</p></div>
+model Agent {
+  id String @id
+  name String // Jackson, Abigail, Alexford, Isaac Tettevi
+  phone String // 0591264385, 0244729066, 0558690220, +233 24 373 3272
+  listings Int @default(0)
+  role String @default("Sales Agent")
+}
+'use client'
+export default function DataDashboard() {
+  return (
+    <div className="bg-[#0a0a0a] text-white min-h-screen">
+      {/* Top Bar */}
+      <div className="flex justify-between p-4 border-b border-zinc-800">
+        <div>Workspace Search | History | Orders</div>
+        <div>PHILISAM KWABENA ADDO</div>
+      </div>
+      
+      {/* Alert from video */}
+      <div className="bg-yellow-500/20 text-yellow-400 p-2 text-sm">
+        MTN EXPRESS BUNDLE Delay Expected 10-60 mins — 100% delivery in 15 mins — few is waiting 7hr 30min
+      </div>
+
+      <div className="p-6">
+        <h1>Good evening, Philisam — Your command center</h1>
+        <p className="text-zinc-400">Track transactions, insights, and actions at a glance</p>
+        
+        {/* Stats from video */}
+        <div className="grid grid-cols-3 gap-4 mt-6">
+          <Card title="Wallet Balance" value="GHS 1.10" />
+          <Card title="Total Orders" value="42" change="+1.2%" />
+          <Card title="Completed Orders" value="42" change="+1.6%" />
+        </div>
+
+        {/* Top Packages from video */}
+        <div className="mt-8 grid grid-cols-3 gap-4">
+          <PackageCard network="MTN EXPRESS" size="2GB" price="8.40" />
+          <PackageCard network="MTN EXPRESS" size="4GB" price="16.50" />
+          <PackageCard network="AirtelTigo" size="1GB" price="7.30" />
+          <PackageCard network="Telecel" size="1GB" price="12.00" />
+        </div>
+
+        {/* Recent Orders table with Bal Before/After */}
+        <RecentOrdersTable />
+      </div>
     </div>
-    <div class="grid md:grid-cols-2 gap-4 mt-6">
-      <div class="card p-4 rounded"><h4>Top Packages</h4><div id="topPackages" class="mt-2 text-sm space-y-1"></div></div>
-      <div class="card p-4 rounded"><h4>Recent Deposits — GHS 17.83, GHS 22 etc</h4><p class="text-xs text-zinc-400">3 Total Deposits — GHS 239.93 Total Amount — Avg GHS 79.98</p><div class="mt-2 text-xs"><p>DEP-002225 auto GHS 80.00 Credited Apr 8 9:39 AM Bal 120.83→200.83 Auto</p><p>DEP-000459 auto GHS 22.00 Credited</p><p>DEP-000156 manual GHS 157.83 Credited</p></div></div>
+  )
+}
+export default function Wallet() {
+  return (
+    <div>
+      <h2>GHS 1.10 — Recent Activity</h2>
+      <div className="bg-zinc-900 p-6 rounded">
+        <h3>Top Up Wallet — Send & Claim, Paystack, BulkTopUp</h3>
+        <p>Your Reference Code When Sending Payment</p>
+        <div className="flex gap-2">
+          <code className="bg-black p-2">USR15SF</code>
+          <button>Copy</button>
+        </div>
+        <p>ID: USR15SF — Reference to share</p>
+        <p>Send Payment To: 0557730934 A. HEKABLEE ENTERPRISE</p>
+        <ol>
+          <li>1. Send money to any numbers above</li>
+          <li>2. Use Reference USR15SF</li>
+          <li>3. Auto-verifies instantly MTN/Telecel only</li>
+          <li>4. For other networks claim manually using transaction ID</li>
+        </ol>
+        <p>Minimum GHS 1.00 — 0% Transaction Fee</p>
+        
+        {/* Deposit History from video */}
+        <table>
+          <thead><tr><th>ID</th><th>Amount</th><th>Method</th><th>Status</th><th>Bal Before/After</th></tr></thead>
+          <tbody>
+            <tr><td>DEP-002225</td><td>GHS 80.00</td><td>auto paystack</td><td>Credited Apr 8 9:39 AM</td><td>120.83 → 200.83</td></tr>
+            <tr><td>DEP-000459</td><td>GHS 22.00</td><td>auto</td><td>Credited</td><td>129.23 → 151.23</td></tr>
+            <tr><td>DEP-000156</td><td>GHS 157.83</td><td>manual</td><td>Credited</td><td>0.00 → 157.83</td></tr>
+          </tbody>
+        </table>
+        <p>3 Total Deposits — GHS 239.93 Total Amount — GHS 79.98 Avg per Deposit</p>
+      </div>
     </div>
-    <div class="card p-4 rounded mt-4 overflow-auto">
-      <h4>Recent Orders — ORD-340894 055119907 Airtel GHS 3 MTN Delivered</h4>
-      <table class="w-full text-xs mt-2">
-        <thead class="text-zinc-400"><tr><th>Order ID</th><th>Size</th><th>Recipient</th><th>Network</th><th>Status</th><th>Bal Before/After</th></tr></thead>
-        <tbody id="recentOrders"></tbody>
+  )
+}  const MTN_PACKAGES = [
+  { size: "1GB", price: 4.30, days: 90 },
+  { size: "2GB", price: 8.40, days: 90 },
+  { size: "3GB", price: 12.70, days: 90 },
+  { size: "4GB", price: 16.50, days: 90 },
+  { size: "5GB", price: 20.75, days: 90 },
+  { size: "6GB", price: 25.80, days: 90 },
+  { size: "8GB", price: 33.80, days: 90 },
+  { size: "10GB", price: 40.65, days: 90 },
+  { size: "15GB", price: 60, days: 90 },
+  { size: "20GB", price: 80, days: 90 },
+  { size: "25GB", price: 100, days: 90 },
+  { size: "30GB", price: 120, days: 90 },
+];
+
+export default function MTNOffers() {
+  return (
+    <div>
+      <h1>Explore Our MTN Offers — Purchase data bundle or airtime</h1>
+      <div>Select MTN Offer — MTN EXPRESS BUNDLE — 90 Days Active — 14 Packages</div>
+      <div className="grid grid-cols-4 gap-4">
+        {MTN_PACKAGES.map(p => (
+          <div key={p.size} className="bg-zinc-900 p-4">
+            <p>MTN Bundle {p.size}</p>
+            <p>GHS {p.price}</p>
+            <button className="bg-yellow-400 text-black">Add to Cart</button>
+          </div>
+        ))}
+      </div>
+      
+      {/* Single / Bulk / Excel Modes from video */}
+      <Tabs>
+        <Tab label="Single Order">
+          <input placeholder="Recipient Phone Number 024911..." />
+          <select><option>Select package</option></select>
+          <label><input type="checkbox" /> Make this a recurring order</label>
+          <button>Place Order</button>
+        </Tab>
+        <Tab label="Bulk">
+          Mode: Normal Free — Same volume vs Each recipient different bundles
+          Recipients (2) — Add Recipient — Place Bulk Order
+        </Tab>
+        <Tab label="Excel">
+          Download Simple Template — Paste bulk entries phone + data/amount — Place Bulk Order
+        </Tab>
+      </Tabs>
+    </div>
+  )
+}
+const TELECEL = [
+  { size: "5GB", price: 23 }, { size: "10GB", price: 40 },
+  { size: "15GB", price: 57 }, { size: "20GB", price: 75 },
+  { size: "25GB", price: 95 }, { size: "50GB", price: 182 },
+  { size: "100GB", price: 352 }, { size: "200GB", price: 700 },
+];
+// Same component structure as MTN — 60 Days Active — 10 Packages
+export default function AFA() {
+  return (
+    <form>
+      <h2>AFA Package — GHS 15 — 250 mins on-net, 20 off-net, 100 SMS</h2>
+      <input placeholder="Full Name e.g. Kwame Mensah" required />
+      <input type="date" placeholder="Date of Birth dd/mm/yyyy" required />
+      <input placeholder="MTN Phone Number e.g. 0241234567" required />
+      <input placeholder="Ghana Card Number GHA-XXXXXXXXX-X" pattern="GHA-[0-9]+-[0-9]" required />
+      <select><option>Home Region — Adabraka Accra</option></select>
+      <input placeholder="Occupation — Farmer" />
+      <button>Confirm — Insufficient Balance popup: You need GHS 15.00 but have GHS 1.10</button>
+      <p>How to Activate: Dial *170# Select Buy AFA Bundle Choose offer Confirm MoMo PIN Get SMS</p>
+    </form>
+  )
+}
+// Referrals — FPDNDQ 5%
+Referral Code: FPDNDQ — Link: https://digi-mall.app/signup?ref=FPDNDQ — Commission 5% — Total Referred 0 — Earned GHS 0.00
+
+// Vouchers
+WASSCE Results Checker In Stock — BECE Out of Stock — Encrypted single-use — 30 mins delivery
+
+// API — Swagger from video
+Base: https://www.digi-mall.app/api/v1 — Header X-API-Key
+Endpoints: GET /offers, POST /order/network, GET /order/status/{identifier}, POST /order/status/bulk, GET /balance, GET /vouchers, POST /voucher/purchase, POST /afa/register
+Rate limits: Order 20, Status 100, Other 5 — Webhooks HMAC SHA-256
+export default function EstateHome() {
+  return (
+    <div>
+      {/* Hero from video */}
+      <div className="bg-black text-white p-20">
+        <span className="bg-orange-500">HOT CAKE — 5-Bed House in Gbawe — No.5 Vanderpuye St, 0.19-acre walled compound — Market value GH₵ 2.8M Limited opportunity</span>
+        <h1>HOT CAKE — 5-Bed House in Gbawe</h1>
+        <button>Search Properties</button><button>Explore The Milton</button>
+      </div>
+      
+      {/* Filters */}
+      <div className="flex gap-4 p-4">
+        <button>For Sale</button><button>For Rent</button><button>Land</button>
+        <input placeholder="WHERE City, area or landmark e.g. Spintex, Tema" />
+        <select><option>PROPERTY TYPE Any type</option></select>
+        <select><option>BEDS Any</option></select>
+        <select><option>BUDGET Any budget</option></select>
+        <button className="bg-blue-600">Search</button>
+      </div>
+
+      {/* Stats */}
+      <div>15+ Years Combined Experience — 100% Verified Listings — 24/7 AI & Human Support — 3 Signature Developments</div>
+
+      {/* Categories */}
+      <div>Let's Explore by Property Type — Apartments 0, Commercial 0, Land 22, Office 0, Restaurant 0, Villa 0, Homes 0</div>
+
+      {/* Featured — Cards from video */}
+      <div className="grid grid-cols-3 gap-4">
+        <PropertyCard badge="FOR SALE" hotCake="HOT CAKE" price="2,505,282" title="HOT CAKE - 5-Bedroom House In Nsot - Vanderpuye St, Gbawe" beds={5} baths={6} sqft={8216} />
+        <PropertyCard price="39,500" title="Land For Sale - Hobo-, Amasaman" type="Land — 12plots plan" />
+        <PropertyCard price="24,500" title="Land For Sale - Odebik" />
+      </div>
+    </div>
+  )
+}
+export default function TheMilton() {
+  return (
+    <div>
+      <span>ALMOST SOLD OUT</span>
+      <h1>Luxury Apartments in Airport Residential Area</h1>
+      <p>Nine-storey twin towers offering 157 impeccably designed apartments — studios to expansive 4-bedroom residences</p>
+      <button>Enquire Now</button><button>View Gallery</button>
+      <p>9 floors — 157 Apartments — Show apartment — 1-5.5 Bathrooms</p>
+      
+      <h2>Made For Sophisticated Living</h2>
+      <p>Made up of nine-storey twin towers... luxurious finishing, premium appliances... rooftop restaurant... lifestyle of unparalleled convenience and elegance</p>
+      
+      <h2>World-Class Facilities</h2>
+      <div>Swimming Pool — Laundry — Gym — Concierge Services — Spa & Beauty Salon — Rooftop Restaurant</div>
+      
+      <h2>Inside The Milton — Gallery</h2>
+      <div className="grid grid-cols-3">[living room brown sofa, kitchen white cabinets, bedroom]</div>
+      
+      <h2>Airport Residential Area, Accra — Location</h2>
+      <p>One of top 3 most centered neighborhoods — central, diverse, metropolitan</p>
+      <ul>
+        <li>Kotoka International Airport 3 mins</li><li>Roman Ridge School 4 mins</li><li>Nyaho Medical Centre 3 mins</li><li>Santoku Restaurant 7 mins</li><li>Accra Mall 9 mins</li>
+      </ul>
+      
+      <h2>Book a Private Tour of The Milton — Show Apartment Now Open</h2>
+      <p>+233 24 8080 852 / +233 20 611 8858 — info@zuriestate.com</p>
+      <form>
+        <input placeholder="Full name" required /><input placeholder="Email address" required /><input placeholder="Phone number" required />
+        <textarea placeholder="Tell us what you're looking for"></textarea>
+        <button>Indicate Your Interest</button>
+      </form>
+    </div>
+  )
+}
+// Exclusive Townhomes in a Gated Community in Tema — Community 26 — quality construction, generous living spaces and secure, family-friendly community
+// Signature fully finished vs Classic flexible personalization — Book A Viewing
+// Features: Superior Construction, Serene Landscaped, Integrated Staff Quarters, Expansive Interiors, Abundant Natural Light, Gated & Secure
+// Gallery: A Community That Feels Like Home
+// Location: Nestled in Heart of Community 26 — Tema-Aflao Road Nearby, Tema Harbour Minutes away, Kotoka Airport Minutes away
+ const BLOGS = [
+  { cat: "ENTERTAINMENT", date: "13 FEB 2024", title: "Unique Real Estate Marketing: Have A Tent Business Card" },
+  { cat: "REAL ESTATE", date: "08 FEB 2024", title: "Make Sure Your Real Estate Listings Pop" },
+  { cat: "BUILDING", date: "13 JAN 2024", title: "Connect With Corporate Recruiters" },
+  { cat: "REAL ESTATE", date: "12 FEB 2024", title: "Buying Land In Ghana A Step-by-Step Guide — inspection, titling and settlement plans" },
+  { cat: "REAL ESTATE", date: "12 MAR 2025", title: "Renting vs Buying in Accra in 2025" },
+  { cat: "PROJECTS", date: "18 MAR 2025", title: "Inside The Milton: What Life in a 4-Star Apartment Looks Like" },
+];
+export default function Blog() {
+  return (
+    <div>
+      <h1>Real Estate Insights & News — Home / Blog</h1>
+      <div className="grid grid-cols-3 gap-4">
+        {BLOGS.map(b => <div><span>{b.cat} {b.date}</span><h3>{b.title}</h3><a>Read More →</a></div>)}
+      </div>
+    </div>
+  )
+}
+const AGENTS = [
+  { name: "Jackson", phone: "0591264385", listings: 0 },
+  { name: "Abigail", phone: "0244729066", listings: 0 },
+  { name: "Alexford", phone: "0558690220", listings: 0 },
+  { name: "Isaac Tettevi", phone: "+233 24 373 3272", listings: 0 },
+  { name: "Priscilla Aseidu", phone: "+233 54 27 39734", listings: 0 },
+  { name: "Emmanuel Kofi", phone: "+233 54 601 0598", listings: 0 },
+  { name: "Daniel Paitoo", phone: "+233 54 609 0857", listings: 0 },
+];
+export default function CEOPortal() {
+  return (
+    <div className="bg-[#0a0a0a] text-white min-h-screen p-6">
+      <h1>Good evening, Philisam — CEO Command Center</h1>
+      <p>Track ALL transactions, insights, and actions at a glance — Travel + Data + Estate</p>
+      
+      <div className="grid grid-cols-4 gap-4">
+        <Card title="Wallet Balance" value="GHS 1.10" sub="USR15SF" />
+        <Card title="Total Orders" value="42" sub="Data + Travel" />
+        <Card title="Total Spent" value="GHS 60.00" sub="Data" />
+        <Card title="Total Deposits" value="GHS 239.93" sub="3 deposits" />
+      </div>
+
+      {/* Unified Table with Bal Before/After logic from video */}
+      <table className="w-full mt-8">
+        <thead><tr><th>Order ID</th><th>Size</th><th>Recipient</th><th>Network</th><th>Status</th><th>Source</th><th>Bal Before/After</th></tr></thead>
+        <tbody>
+          <tr><td>ORD-248464</td><td>Airtime GHS 3</td><td>055811907</td><td>MTN</td><td>Delivered</td><td>Web</td><td>GHS 4.07 → GHS 1.10</td></tr>
+          <tr><td>EST-001</td><td>HOT CAKE 5-Bed Gbawe</td><td>Client</td><td>Zuri Estate</td><td>Inquiry</td><td>Web</td><td>GH₵ 2.5M</td></tr>
+        </tbody>
       </table>
+
+      <div className="mt-8">
+        <h2>Deposit History — View all wallet deposits</h2>
+        <p>Filters: Search by ID, All Statuses Pending/Processing/Failed/Credited/Cancelled, All Platforms Paystack/Manual, Start/End Date</p>
+      </div>
+
+      <div className="mt-8">
+        <h2>API Key Management — Securely generate and manage API keys</h2>
+        <p>Base: https://www.digi-mall.app/api/v1 — X-API-Key — Rate limits Order 20 Status 100 — Webhooks HMAC SHA-256</p>
+      </div>
     </div>
-  </div>
-
-  <!-- WALLET -->
-  <div id="data-wallet" class="hidden">
-    <h2 class="text-xl font-bold">Wallet — GHS <span class="walletVal">1.10</span> — Recent Activity</h2>
-    <div class="card p-6 rounded-xl mt-4">
-      <h3 class="font-bold">Top Up Wallet — Send & Claim, Paystack, BulkTopUp</h3>
-      <p class="text-sm text-zinc-400 mt-2">Your Reference Code When Sending Payment</p>
-      <div class="flex gap-2 mt-2"><code class="bg-black border border-zinc-700 p-2 rounded">USR15SF</code><button onclick="navigator.clipboard.writeText('USR15SF');alert('Copied USR15SF')" class="bg-zinc-800 px-3 rounded text-sm">Copy</button></div>
-      <p class="text-xs mt-2">ID: USR15SF — Reference to share — Send Payment To: <b>0557730934 A. HEKABLEE ENTERPRISE</b></p>
-      <ol class="text-xs text-zinc-400 list-decimal ml-4 mt-2"><li>Send money to any numbers above</li><li>Use Reference USR15SF</li><li>Auto-verifies instantly MTN/Telecel only</li><li>For other networks claim manually using transaction ID</li></ol>
-      <p class="text-xs mt-2">Minimum GHS 1.00 — 0% Transaction Fee — Unverified Payments 0</p>
-      <div class="mt-4 overflow-auto"><table class="w-full text-xs"><thead><tr><th>ID</th><th>Amount</th><th>Method</th><th>Platform</th><th>Reference</th><th>Status</th><th>Bal Before/After</th></tr></thead><tbody><tr><td>DEP-002225</td><td>80.00</td><td>auto</td><td>paystack</td><td>13...</td><td>Credited Apr 08</td><td>120.83→200.83 Auto</td></tr><tr><td>DEP-000459</td><td>22.00</td><td>auto</td><td>paystack</td><td>10...</td><td>Credited</td><td>129.23→151.23</td></tr><tr><td>DEP-000156</td><td>157.83</td><td>manual</td><td>Admin-Portal</td><td>Manual</td><td>Credited</td><td>0.00→157.83</td></tr></tbody></table></div>
-    </div>
-  </div>
-
-  <!-- MTN -->
-  <div id="data-mtn" class="hidden">
-    <h2 class="text-xl font-bold">Explore Our MTN Offers — 14 Packages — 90 Days Active — MTN EXPRESS BUNDLE</h2>
-    <div class="flex gap-2 mt-4"><button onclick="setOrderMode('single')" class="bg-white text-black px-3 py-1 rounded text-sm">Single Order</button><button onclick="setOrderMode('bulk')" class="bg-zinc-800 px-3 py-1 rounded text-sm">Bulk Mode — Normal Free — Same vs Different bundles</button><button onclick="setOrderMode('excel')" class="bg-zinc-800 px-3 py-1 rounded text-sm">Excel Upload — Download Template</button></div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4" id="mtnGrid"></div>
-    <div class="card p-4 rounded mt-6">
-      <h4>Single Order — Recipient Phone Number + Package Select + Make recurring</h4>
-      <div class="flex gap-2 mt-2 flex-wrap"><input id="mtnPhone" placeholder="024911... 0550791907" class="bg-black border border-zinc-700 p-2 rounded flex-1"><select id="mtnPackage" class="bg-black border border-zinc-700 p-2 rounded flex-1"><option>Select package</option></select><label class="text-xs flex items-center gap-1"><input type="checkbox"> Make recurring</label><button onclick="placeOrder('MTN')" class="yellow-btn px-4 py-2 rounded">Place Order</button></div>
-      <div id="bulkArea" class="hidden mt-4"><p class="text-xs">Bulk Order — Recipients (2) — Add Recipient — Paste bulk entries phone + data/amount e.g. 0241234567, 3</p><textarea placeholder="0550791907 2GB&#10;0241234567 3GB" class="w-full bg-black border border-zinc-700 p-2 rounded h-24 mt-2"></textarea><button onclick="placeOrder('MTN-BULK')" class="yellow-btn px-4 py-2 rounded mt-2">Place Bulk Order (2 recipients)</button></div>
-    </div>
-  </div>
-
-  <!-- TELECEL & AIRTELTIGO SAME STRUCTURE -->
-  <div id="data-telecel" class="hidden"><h2 class="text-xl font-bold">Telecel — 10 Packages — 60 Days Active</h2><div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4" id="telecelGrid"></div><div class="card p-4 rounded mt-4 flex gap-2 flex-wrap"><input id="telecelPhone" placeholder="Recipient 0550791907" class="bg-black border border-zinc-700 p-2 rounded flex-1"><select id="telecelPackage" class="bg-black border border-zinc-700 p-2 rounded flex-1"></select><button onclick="placeOrder('Telecel')" class="yellow-btn px-4 py-2 rounded">Place Order</button></div></div>
-  <div id="data-airteltigo" class="hidden"><h2 class="text-xl font-bold">AirtelTigo — 14 Packages — iShare 30 Days Active</h2><div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4" id="airtelGrid"></div></div>
-
-  <!-- AFA -->
-  <div id="data-afa" class="hidden">
-    <h2 class="text-xl font-bold">AFA Registration — GHS 15 — 250 mins on-net, 20 off-net, 100 SMS</h2>
-    <div class="card p-6 rounded mt-4 max-w-2xl">
-      <div class="grid gap-3"><input id="afaName" placeholder="Full Name e.g. Kwame Mensah" class="bg-black border border-zinc-700 p-2 rounded"><input id="afaDob" type="date" class="bg-black border border-zinc-700 p-2 rounded"><input id="afaPhone" placeholder="MTN Phone 0241234567" class="bg-black border border-zinc-700 p-2 rounded"><input id="afaCard" placeholder="Ghana Card GHA-XXXXXXXXX-X" class="bg-black border border-zinc-700 p-2 rounded"><select class="bg-black border border-zinc-700 p-2 rounded"><option>Home Region — Adabraka Accra</option><option>Greater Accra</option><option>Ashanti</option></select><input placeholder="Occupation — Farmer" class="bg-black border border-zinc-700 p-2 rounded"><button onclick="placeAFA()" class="yellow-btn p-3 rounded">Confirm & Enter MoMo PIN — GHS 15.00</button><p class="text-xs text-zinc-400">MTN numbers only — fees based on group — Cannot be deactivated on submission — Wallet deducted on submission — How to Activate: Dial *170# Buy AFA Bundle Choose offer Confirm MoMo PIN SMS confirmation</p></div>
-    </div>
-  </div>
-
-  <!-- VOUCHERS, REFERRALS, ORDERS, API -->
-  <div id="data-vouchers" class="hidden"><h2 class="text-xl font-bold">Voucher Shop — Browse, buy, deliver digital vouchers</h2><div class="grid md:grid-cols-2 gap-4 mt-4"><div class="card p-4 rounded"><h4>WASSCE Results Checker In Stock</h4><p class="text-xs">WASSCE results vouchers — Single-use encrypted — 30 mins delivery</p><button class="yellow-btn px-3 py-1 rounded mt-2 text-sm">Select & Order</button></div><div class="card p-4 rounded opacity-50"><h4>BECE Results Checker Out of Stock</h4><p class="text-xs">BECE results voucher</p></div></div></div>
-  <div id="data-referrals" class="hidden"><h2 class="text-xl font-bold">My Referrals — Referral Performance — Track referral impact earnings activation</h2><div class="card p-6 rounded mt-4"><p>Total Referred 0 — Active Referrals 0 — Total Orders — Wallet GHS 1.10 — Total Referrals 0 — Commission Earned GHS 0.00 — Pending Commission GHS 0.00 — Active Rate 5%</p><p class="mt-2">Your Referral Code: <b class="text-yellow-400">FPDNDQ</b> — Link: https://digi-mall.app/signup?ref=FPDNDQ <button onclick="navigator.clipboard.writeText('https://digi-mall.app/signup?ref=FPDNDQ')" class="bg-zinc-800 px-2 py-1 rounded text-xs">Copy</button></p><p class="text-xs text-zinc-400 mt-2">Commission Settings Enabled — Default 5% Effective Rate 5% — No referrals yet — Share link to start earning</p><p class="mt-2">Premium Groups — AGENTS For data resellers — You're a member — Joined — Join curated groups to access special pricing premium offers priority processing pay once access</p><p class="mt-2">Services & Offers — MTN MERCHANT SIM ABS GROUP — MTN AGENT SIM — PROFESSIONAL DATA FLYER DESIGNS — Request Service via WhatsApp</p><p class="mt-2">Agent Program — Run your own branded reseller business — Apply Wait for review Get approved Start earning — Your own sub-store branded storefront custom domain — Onboard sub-agents Recruit team earn commission — Build your downline Set your own margins Markup platform tariffs — Store name e.g. Soft's Data Hub Portal subdomain acme Expected monthly volume GHS 3000 — Need Help WhatsApp 24hrs</p></div></div>
-  <div id="data-orders" class="hidden"><h2 class="text-xl font-bold">All Orders — 42 Total Orders — Analytics Overview — GHS 60.00 Total Spent — 0.00GB Total Data</h2><p class="text-xs text-zinc-400">Analyze cross network order activity from one unified command table — Search by order ID recipient All Statuses Start Date End Date All Networks Filters Columns — Order History — Order ID Size Recipient Network Status Source Paid Bal Before Amount Bal After — Refund History — Wallet Credit, Sub-agent Wallet, Paystack Platform/Vendor/Agent — Sources Web WhatsApp API VEND Vendor Store Reseller Portal Store Dashboard Recurring — No refunds yet — Deposits — Deposit History 3 Total Deposits 0 Failed 239.93 Total Amount 79.98 Avg — Deposit ID Amount Method Platform Reference Status Bal Before Bal After Handled By Date</p><div class="card p-4 rounded mt-4 overflow-auto"><table class="w-full text-xs"><thead><tr><th>Order ID</th><th>Size</th><th>Recipient</th><th>Network</th><th>Status</th><th>Source</th><th>Paid</th><th>Bal Before</th><th>Amount</th><th>Bal After</th></tr></thead><tbody id="allOrdersTable"></tbody></table></div></div>
-  <div id="data-api" class="hidden"><h2 class="text-xl font-bold">DigiMall API — Swagger UI — B2B telecom reseller API</h2><div class="card p-4 rounded mt-4 text-xs"><p>Base URL: https://www.digi-mall.app/api/v1 — Production — Authentication via X-API-Key header — Webhooks HMAC SHA-256 — OpenAPI spec + PDF</p><p class="mt-2">Endpoints: GET /offers — POST /order/network Place order — GET /order/status/{identifier} — POST /order/status/bulk — GET /balance — GET /vouchers — POST /voucher/purchase — POST /afa/register — POST /afa/validate-recipient — POST /afa/validate-recipients</p><p class="mt-2">API Key Management — GET /api-keys List — POST /api-keys Create — PATCH /api-keys/{id} Update — DELETE /api-keys/{id} Revoke</p><p class="mt-2">Rate limits & usage — Order placement 20 remaining 8/20 — Status checks 100 remaining — Other endpoints 5 remaining — Webhook settings — Webhook URL — Sign webhooks HMAC SHA-256 — Rotate signing secret — Allowed IPs — Domain restriction — Verify security</p><p class="mt-2">Dealer & Vendor Handbook — Everything you need to run your reseller business — wallet, orders, AFA, vouchers, vendor storefront, public API — Manual home Dashboard tour Daily operations Wallet & deposits Placing orders Bulk & Excel orders AFA registrations Vouchers Recurring orders Notifications Vendor & API Vendor storefront API reference — Save as PDF</p></div></div>
-</div>
-
-<!-- ESTATE TAB - FULL ZURI REBUILD -->
-<div id="tab-estate" class="hidden">
-  <div class="flex gap-2 flex-wrap mb-6">
-    <button onclick="showEstateSub('home')" class="estateSubBtn bg-white text-black px-3 py-1 rounded text-sm">Home HOT CAKE</button>
-    <button onclick="showEstateSub('all')" class="estateSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">All Properties 30</button>
-    <button onclick="showEstateSub('milton')" class="estateSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">The Milton 157 Apartments</button>
-    <button onclick="showEstateSub('libiprime')" class="estateSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">LibiPrime Tema</button>
-    <button onclick="showEstateSub('services')" class="estateSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">Services Full-Service</button>
-    <button onclick="showEstateSub('blog')" class="estateSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">Blog INSIDE Estate</button>
-    <button onclick="showEstateSub('agents')" class="estateSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">Agents 7</button>
-    <button onclick="showEstateSub('contact')" class="estateSubBtn bg-zinc-800 px-3 py-1 rounded text-sm">Contact Labadi</button>
-  </div>
-
-  <div id="estate-home">
-    <div class="bg-gradient-to-r from-black to-zinc-900 p-8 rounded-xl border border-zinc-800">
-      <span class="bg-orange-500 text-black px-2 py-1 rounded text-xs font-bold">HOT CAKE</span>
-      <h1 class="text-3xl font-black mt-2">5-Bed House in Gbawe — No.5 Vanderpuye St, 0.19-acre walled compound</h1>
-      <p class="text-zinc-400">Market value GH₵ 2.8M Limited opportunity — GH₵ 2,505,282</p>
-      <div class="flex gap-2 mt-4"><button class="teal-btn px-4 py-2 rounded">Search Properties</button><button onclick="showEstateSub('milton')" class="bg-zinc-800 px-4 py-2 rounded">Explore The Milton</button></div>
-    </div>
-    <div class="flex gap-2 mt-4 flex-wrap">
-      <button class="bg-white text-black px-3 py-1 rounded text-sm">For Sale</button><button class="bg-zinc-800 px-3 py-1 rounded text-sm">For Rent</button><button class="bg-zinc-800 px-3 py-1 rounded text-sm">Land</button>
-      <input placeholder="WHERE City area or landmark e.g. Spintex, Tema" class="bg-black border border-zinc-700 p-2 rounded flex-1 text-sm">
-      <select class="bg-black border border-zinc-700 p-2 rounded text-sm"><option>PROPERTY TYPE Any type</option></select>
-      <select class="bg-black border border-zinc-700 p-2 rounded text-sm"><option>BEDS Any</option></select>
-      <select class="bg-black border border-zinc-700 p-2 rounded text-sm"><option>BUDGET Any budget</option></select>
-      <button class="blue-btn px-4 py-2 rounded text-sm">Search</button>
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 text-xs text-center"><div class="card p-3 rounded">15+ Years Combined Experience</div><div class="card p-3 rounded">100% Verified Listings</div><div class="card p-3 rounded">24/7 AI & Human Support</div><div class="card p-3 rounded">3 Signature Developments</div></div>
-    <h3 class="mt-6 font-bold">Let's Explore by Property Type — Apartments 0, Commercial 0, Land 22, Office 0, Restaurant 0, Villa 0, Homes 0</h3>
-    <div class="grid md:grid-cols-3 gap-4 mt-4" id="estateFeatured"></div>
-    <div class="mt-6"><h3 class="font-bold">Signature Developments by LibiPrime Homes — The Milton 11 PROPERTIES, LibiPrime, The Emory</h3><p class="text-sm text-zinc-400">All Process Made Easier — Find a Property tailored to needs and budget — Make a Deal negotiate best terms — Get Your Keys seamless handover</p></div>
-    <div class="mt-6"><h3 class="font-bold">Find Your Neighborhood — Gbawe 1 PROPERTIES, Kumasi 0, Eastern Region, Spintex, Central Region</h3></div>
-  </div>
-
-  <div id="estate-all" class="hidden"><h2 class="font-bold">All Properties — Verified lands, houses & apartments across Ghana — 30 properties found — Featured first</h2><div class="grid md:grid-cols-4 gap-4 mt-4"><div class="card p-4 rounded text-xs"><p>Filters Clear all — PROPERTY TYPE Farm/Land Residential House Villa Land Commercial Office Apartment — PLOT SIZE 40x50 70x100 100x100 — PRICE Min Max — POPULAR LOCATIONS Gbawe Spintex East Legon — Need help? Talk to an Expert — Apply Filters teal</p></div><div class="md:col-span-3 grid md:grid-cols-3 gap-3" id="estateAllGrid"></div></div></div>
-
-  <div id="estate-milton" class="hidden">
-    <span class="bg-red-500 text-white px-2 py-1 rounded text-xs">ALMOST SOLD OUT</span>
-    <h1 class="text-2xl font-bold mt-2">Luxury Apartments in Airport Residential Area — Nine-storey twin towers 157 impeccably designed studios to 4-bedroom residences</h1>
-    <div class="flex gap-2 mt-2"><button class="teal-btn px-4 py-2 rounded">Enquire Now</button><button class="bg-zinc-800 px-4 py-2 rounded">View Gallery</button></div>
-    <p class="text-sm mt-2">9 floors — 157 Apartments — 1-5.5 Bathrooms — Show apartment</p>
-    <h3 class="font-bold mt-4">Made For Sophisticated Living</h3><p class="text-sm text-zinc-400">Nine-storey twin towers, exclusive collection 157 impeccably designed apartments studios to 4-bed luxurious finishing premium appliances refined crafted design elements stunning rooftop restaurant lifestyle unparalleled convenience elegance</p>
-    <h3 class="font-bold mt-4">World-Class Facilities — CURATED FOR YOUR CONVENIENCE</h3><p class="text-sm">Swimming Pool — Laundry — Gym — Concierge Services — Spa & Beauty Salon — Rooftop Restaurant</p>
-    <h3 class="font-bold mt-4">Inside The Milton — Gallery</h3><div class="grid grid-cols-3 gap-2 mt-2"><div class="bg-zinc-800 h-24 rounded"></div><div class="bg-zinc-800 h-24 rounded"></div><div class="bg-zinc-800 h-24 rounded"></div></div>
-    <h3 class="font-bold mt-4">Location — Airport Residential Area, Accra — Top 3 most centered neighborhoods central diverse metropolitan</h3><ul class="text-sm text-zinc-400 list-disc ml-4"><li>Kotoka International Airport 3 mins</li><li>Roman Ridge School 4 mins</li><li>Nyaho Medical Centre 3 mins</li><li>Santoku Restaurant 7 mins</li><li>Accra Mall 9 mins</li></ul>
-    <div class="card p-4 rounded mt-4"><h4>Show Apartment Now Open — Book a Private Tour</h4><p class="text-xs">+233 24 8080 852 / +233 20 611 8858 info@zuriestate.com</p><div class="grid gap-2 mt-2"><input placeholder="Full name" class="bg-black border border-zinc-700 p-2 rounded"><input placeholder="Email address" class="bg-black border border-zinc-700 p-2 rounded"><input placeholder="Phone number" class="bg-black border border-zinc-700 p-2 rounded"><textarea placeholder="Tell us what you're looking for" class="bg-black border border-zinc-700 p-2 rounded"></textarea><button class="teal-btn p-2 rounded">Indicate Your Interest</button></div></div>
-  </div>
-
-  <div id="estate-libiprime" class="hidden">
-    <h1 class="text-2xl font-bold">Exclusive Townhomes in a Gated Community in Tema — Community 26</h1><p class="text-sm text-zinc-400">Quality construction generous living spaces secure family-friendly community — Signature fully finished vs Classic flexible personalization kitchen wardrobes bathroom vanities</p><div class="flex gap-2 mt-2"><button class="teal-btn px-4 py-2 rounded">Reserve Your Unit</button><button class="bg-zinc-800 px-4 py-2 rounded">View Gallery</button></div>
-    <h3 class="font-bold mt-4">Welcome to LibiPrime — Features</h3><p class="text-sm">Superior Construction — Serene Landscaped Outdoor Spaces — Integrated Staff Quarters — Expansive Interiors — Abundant Natural Light & Ventilation — Gated & Secure Community</p>
-    <h3 class="font-bold mt-4">Gallery — A Community That Feels Like Home — LibiPrime gate, townhome exterior white+brown</h3>
-    <h3 class="font-bold mt-4">Location — Nestled in Heart of Community 26 — Tema-Aflao Road Nearby, Tema Harbour Minutes away, Kotoka Airport Minutes away</h3>
-  </div>
-
-  <div id="estate-services" class="hidden"><h1 class="text-2xl font-bold">Full-Service Real Estate, Start to Finish</h1><p class="text-sm text-zinc-400">Explore services seamless enjoyable rewarding</p><div class="grid md:grid-cols-3 gap-4 mt-4 text-sm"><div class="card p-4 rounded"><h4>Property Documentation</h4><p class="text-xs text-zinc-400">Seamless registration title documentation safe dispute-free</p></div><div class="card p-4 rounded"><h4>Architectural Drawings</h4><p class="text-xs">Custom architectural structural drawings in-house design team budget site</p></div><div class="card p-4 rounded"><h4>Construction & Management</h4><p class="text-xs">End to end project management groundbreaking key handover vetted contractors transparent costing</p></div><div class="card p-4 rounded"><h4>Materials Acquisition</h4><p class="text-xs">Bulk sourcing quality building materials negotiated rates delivered site</p></div><div class="card p-4 rounded"><h4>Property Sales & Rentals</h4><p class="text-xs">Curated marketplace verified lands houses apartments sale rent Ghana</p></div><div class="card p-4 rounded"><h4>Advisory & Negotiation</h4><p class="text-xs">Expert guidance diligence negotiation closing best possible deal</p></div></div><h3 class="font-bold mt-6">Our Working Process — All Process Made Easier — Find a Property — Make a Deal — Get Your Keys — Contact Us</h3></div>
-
-  <div id="estate-blog" class="hidden"><h1 class="text-2xl font-bold">Real Estate Insights & News — Home / Blog — Blog INSIDE Estate</h1><div class="grid md:grid-cols-3 gap-4 mt-4" id="blogGrid"></div></div>
-
-  <div id="estate-agents" class="hidden"><h2 class="font-bold">Our Agents — Expertise Is Here — Join the Zuri Estate team and turn your passion for property into profit!</h2><div class="grid md:grid-cols-3 gap-4 mt-4" id="agentsGrid"></div></div>
-
-  <div id="estate-contact" class="hidden"><h1 class="text-2xl font-bold">Let's Talk About Your Next Property — Home / Contact</h1><div class="card p-6 rounded mt-4"><p>GET IN TOUCH — Office: Total Energies 9734, Maste Dade Street, Labadi, Accra — Phone: +233 24 8080 852 / +233 20 611 8858 — Email: info@zuriestate.com</p><p class="text-sm mt-2">Agents: Isaac Tettevi +233 24 373 3272, Priscilla Aseidu +233 54 27 3734, Emmanuel Kofi +233 54 601 0598, Daniel Paitoo +233 54 609 0857, Jackson 0591264385, Abigail 0244729066, Alexford 0558690220</p><div class="grid gap-2 mt-4 max-w-xl"><input placeholder="Full Name" class="bg-black border border-zinc-700 p-2 rounded"><input placeholder="Email Address" class="bg-black border border-zinc-700 p-2 rounded"><input placeholder="Phone Number" class="bg-black border border-zinc-700 p-2 rounded"><input placeholder="Subject e.g. Agent registration, property..." class="bg-black border border-zinc-700 p-2 rounded"><textarea placeholder="Message" class="bg-black border border-zinc-700 p-2 rounded h-24"></textarea><button class="teal-btn p-2 rounded">Send Message</button></div><p class="text-xs mt-4">What Our Customers Say 5 stars — Patience Adzo CEO @cherryhum — Zuri Estate is the best in the business fantastic deal top-notch service — Samuel Wellington CEO Seas Housing — exceeded expectations professional responsive beautiful home — Gladys Aatey CEO Gusa Fashion — impressed attention to detail commitment quality guided entire process — Looking for a dream home? Let us help you realize your dream of a new home in Ghana — Footer Quick Links All Properties About Us Services Vision & Mission FAQs Donate — Our Projects The Milton LibiPrime The Emory Lands For Sale Properties For Rent — Terms of Use Privacy Policy — Social FB X LinkedIn YouTube — © 2025 Zuri Estate All rights reserved</p></div></div>
-</div>
-
-<!-- CEO PORTAL -->
-<div id="tab-ceo" class="hidden p-6">
-  <h1 class="text-2xl font-bold">Good evening, Philisam — CEO Command Center — Unified for ALL</h1>
-  <p class="text-zinc-400 text-sm">Track transactions insights actions — Travel + Data + Estate — Wallet Balance GHS <span class="walletVal">1.10</span> — Total Orders 42 — Pending 0 — Completed 42 — Orders Overview graph May 26-Oct 10 bars 0-32 — Recent Deposits GHS 17.83 GHS 22 — Top Packages MTN EXPRESS 2GB GHS 8.40 Add to Cart — Recent Orders ORD-340894 055119907 Airtel GHS 3 MTN Delivered</p>
-  <div class="grid md:grid-cols-4 gap-4 mt-6">
-    <div class="card p-4 rounded"><p class="text-xs text-zinc-400">Wallet Balance</p><h3 class="text-xl font-bold">GHS <span class="walletVal">1.10</span></h3><p class="text-xs">USR15SF — FPDNDQ 5%</p></div>
-    <div class="card p-4 rounded"><p class="text-xs">Total Orders 42 +1.2%</p><p class="text-xs">Recent Orders 0 — Total Spent GHS 60.00 — Total Data 0.00GB</p></div>
-    <div class="card p-4 rounded"><p class="text-xs">Total Deposits 3 — GHS 239.93 — Avg GHS 79.98</p><p class="text-xs">DEP-002225 GHS 80 Auto paystack</p></div>
-    <div class="card p-4 rounded"><p class="text-xs">Estate — 30 properties — HOT CAKE GH₵ 2.5M Gbawe — Land 22 Listings</p><p class="text-xs">The Milton 157 Apartments — LibiPrime Community 26</p></div>
-  </div>
-  <div class="card p-4 rounded mt-6 overflow-auto">
-    <h3 class="font-bold">Unified Order History — All Networks Filters — Search by ID recipient — All Statuses — Start Date End Date — Columns</h3>
-    <table class="w-full text-xs mt-2"><thead><tr><th>Order ID</th><th>Size</th><th>Recipient</th><th>Network/Project</th><th>Status</th><th>Source</th><th>Paid</th><th>Bal Before</th><th>Amount</th><th>Bal After</th></tr></thead><tbody id="ceoOrders"></tbody></table>
-  </div>
-  <div class="card p-4 rounded mt-4 text-xs"><h4>Deposit History — View all wallet deposits — Review deposits analytics claims improved filtering mobile readability — Search by ID reference — All Statuses Pending Processing Failed Credited Cancelled — All Platforms Paystack Manual — Start Date End Date Apply Filters — Deposit History Deposit ID Amount Method Platform Reference Status Bal Before Bal After Handled By Date Updated Actions — Print Search with Google Lens Open in reading mode Send to device — Deposit Details popup Complete information about deposit — Balance Before After — Menu Copy link address Inspect</h4></div>
-  <div class="card p-4 rounded mt-4 text-xs"><h4>CEO Logic — Every booking records Bal Before/After like DigiMall: ORD-248464 Airtime GHS 3 055811907 MTN Delivered Web Yes GHS 4.07 GHS 3.00 GHS 1.10 — Refund History Wallet Credit Sub-agent Wallet Paystack Platform Vendor Agent VEND — Sources Web WhatsApp API Vendor Store Reseller Portal Store Dashboard Recurring — Advanced Filters Order/reference All statuses All methods All sources Start Date End Date Min Max amount GHS — Calendar October 2026 — No refunds yet When order refunded shows here Refresh</h4></div>
-</div>
-
-<script>
-// STATE
-let wallet = parseFloat(localStorage.getItem('wallet') || '1.10');
-let orders = JSON.parse(localStorage.getItem('orders') || '[{"id":"ORD-340894","size":"Airtel GHS 3","recipient":"055119907","network":"MTN","status":"Delivered","source":"Web","paid":"Yes","balBefore":4.07,"amount":3.00,"balAfter":1.10},{"id":"ORD-248464","size":"Airtime GHS 3","recipient":"055811907","network":"MTN","status":"Delivered","source":"Web","paid":"Yes","balBefore":4.07,"amount":3.00,"balAfter":1.10},{"id":"ORD-185891","size":"MTN 2GB","recipient":"0552362834","network":"MTN","status":"Delivered","source":"Web","paid":"Yes","balBefore":8.07,"amount":8.40,"balAfter":1.10}]');
-
-const MTN = [{s:"1GB",p:4.30},{s:"2GB",p:8.40},{s:"3GB",p:12.70},{s:"4GB",p:16.50},{s:"5GB",p:20.75},{s:"6GB",p:25.80},{s:"8GB",p:33.80},{s:"10GB",p:40.65},{s:"15GB",p:60},{s:"20GB",p:80},{s:"25GB",p:100},{s:"30GB",p:120},{s:"40GB",p:160},{s:"50GB",p:200}];
-const TELECEL = [{s:"5GB",p:23},{s:"10GB",p:40},{s:"15GB",p:57},{s:"20GB",p:75},{s:"25GB",p:95},{s:"30GB",p:120},{s:"40GB",p:150},{s:"50GB",p:182},{s:"100GB",p:352},{s:"200GB",p:700}];
-const AIRTEL = [{s:"1GB",p:7.30},{s:"2GB",p:14},{s:"3GB",p:21},{s:"4GB",p:28},{s:"5GB",p:35},{s:"6GB",p:42},{s:"8GB",p:55},{s:"10GB",p:68},{s:"15GB",p:100},{s:"20GB",p:130},{s:"25GB",p:160},{s:"30GB",p:190},{s:"40GB",p:250},{s:"50GB",p:310}];
-
-function showTab(t){
-  ['travel','data','estate','ceo'].forEach(x=>{
-    document.getElementById('tab-'+x).classList.toggle('hidden', x!==t);
-    document.getElementById('btn-'+x).className = x===t ? 'px-3 py-1.5 rounded tab-active' : 'px-3 py-1.5 rounded bg-zinc-800';
-  });
+  )
 }
-function showDataSub(s){
-  ['dashboard','wallet','mtn','telecel','airteltigo','afa','vouchers','referrals','orders','api'].forEach(x=>{
-    const el=document.getElementById('data-'+x);
-    if(el) el.classList.toggle('hidden', x!==s);
-  });
-  document.querySelectorAll('.dataSubBtn').forEach(b=>{b.className='dataSubBtn bg-zinc-800 px-3 py-1 rounded text-sm'; if(b.textContent.toLowerCase().includes(s)) b.className='dataSubBtn bg-white text-black px-3 py-1 rounded text-sm';});
-}
-function showEstateSub(s){
-  ['home','all','milton','libiprime','services','blog','agents','contact'].forEach(x=>{
-    const el=document.getElementById('estate-'+x);
-    if(el) el.classList.toggle('hidden', x!==s);
-  });
-}
-function setOrderMode(m){
-  document.getElementById('bulkArea').classList.toggle('hidden', m!=='bulk');
-}
-
-function renderPackages(){
-  const mk = (arr, gridId, selectId) => {
-    const grid=document.getElementById(gridId);
-    const sel=document.getElementById(selectId);
-    if(!grid) return;
-    grid.innerHTML = arr.map(o=>`<div class="card p-3 rounded text-sm"><p>Bundle ${o.s}</p><p class="font-bold text-yellow-400">GHS ${o.p}</p><button onclick="document.getElementById('${selectId}').value='${o.s} - GHS ${o.p}'; document.getElementById('${selectId.replace('Package','Phone')}').focus()" class="yellow-btn w-full mt-2 py-1 rounded text-xs">Add to Cart</button></div>`).join('');
-    if(sel){ sel.innerHTML = '<option>Select package</option>' + arr.map(o=>`<option>${o.s} - GHS ${o.p}</option>`).join(''); }
-  };
-  mk(MTN,'mtnGrid','mtnPackage');
-  mk(TELECEL,'telecelGrid','telecelPackage');
-  mk(AIRTEL,'airtelGrid','mtnPackage');
-  // Top packages
-  document.getElementById('topPackages').innerHTML = MTN.slice(0,4).map(o=>`<div class="flex justify-between"><span>MTN EXPRESS ${o.s}</span><span>GHS ${o.p} <button class="yellow-btn px-2 rounded text-xs">Add to Cart</button></span></div>`).join('');
-  // Estate
-  const est = [
-    {price:'2,505,282',title:'HOT CAKE - 5-Bedroom House In Nsot - Vanderpuye St, Gbawe',beds:5,baths:6,sqft:8216,hot:true},
-    {price:'39,500',title:'Land For Sale - Hobo-, Amasaman',type:'Land | 12plots plan'},
-    {price:'24,500',title:'Land For Sale - Odebikra'},
-    {price:'14,500',title:'Land For Sale - Obom'},
-    {price:'28,500',title:'Land For Sale - Akoti, Obji, Kasoa'},
-    {price:'34,500',title:'Land For Sale - Akoti, Domenase, Kasoa'},
-  ];
-  const card = o=>`<div class="card p-3 rounded text-sm"><div class="flex justify-between"><span class="bg-blue-600 px-2 rounded text-xs">FOR SALE</span>${o.hot?'<span class="bg-orange-500 text-black px-2 rounded text-xs">HOT CAKE</span>':''}</div><p class="font-bold mt-2">GH₵ ${o.price}</p><p>${o.title}</p><p class="text-xs text-zinc-400">${o.beds?`${o.beds} bed ${o.baths} bath ${o.sqft} sq ft`:(o.type||'Land')}</p></div>`;
-  document.getElementById('estateFeatured').innerHTML = est.map(card).join('');
-  document.getElementById('estateAllGrid').innerHTML = [...est,...est, {price:'199,500',title:'House For Sale at Fraizona New Site Aburi 4 bed'},{price:'74,500',title:'House For Sale East Legon Hills'}].map(card).join('');
-  document.getElementById('blogGrid').innerHTML = [
-    {cat:'ENTERTAINMENT 13 FEB 2024',t:'Unique Real Estate Marketing: Have A Tent Business Card'},
-    {cat:'REAL ESTATE 08 FEB 2024',t:'Make Sure Your Real Estate Listings Pop'},
-    {cat:'BUILDING 13 JAN 2024',t:'Connect With Corporate Recruiters'},
-    {cat:'REAL ESTATE 12 FEB 2024',t:'Buying Land In Ghana A Step-by-Step Guide'},
-    {cat:'REAL ESTATE 12 MAR 2025',t:'Renting vs Buying in Accra in 2025'},
-    {cat:'PROJECTS 18 MAR 2025',t:'Inside The Milton: What Life in a 4-Star Apartment Looks Like'},
-  ].map(b=>`<div class="card p-4 rounded"><p class="text-xs text-teal-400">${b.cat}</p><h4 class="font-bold">${b.t}</h4><a class="text-xs text-blue-400">Read More →</a></div>`).join('');
-  document.getElementById('agentsGrid').innerHTML = [
-    {n:'Jackson',p:'0591264385'},{n:'Abigail',p:'0244729066'},{n:'Alexford',p:'0558690220'},{n:'Isaac Tettevi',p:'+233 24 373 3272'},{n:'Priscilla Aseidu',p:'+233 54 27 3734'},{n:'Emmanuel Kofi',p:'+233 54 601 0598'},{n:'Daniel Paitoo',p:'+233 54 609 0857'},
-  ].map(a=>`<div class="card p-4 rounded text-center"><div class="w-16 h-16 bg-zinc-700 rounded-full mx-auto"></div><p class="font-bold mt-2">${a.n}</p><p class="text-xs">Sales Agent 0 Listings</p><p class="text-xs text-yellow-400">Call: ${a.p}</p></div>`).join('');
-}
-
-function placeOrder(network){
-  const phoneEl = document.getElementById(network.toLowerCase().includes('telecel')?'telecelPhone':'mtnPhone');
-  const pkgEl = document.getElementById(network.toLowerCase().includes('telecel')?'telecelPackage':'mtnPackage');
-  const phone = phoneEl ? phoneEl.value : '0550791907';
-  const pkg = pkgEl ? pkgEl.value : '2GB - GHS 8.40';
-  if(!phone){ alert('Enter recipient phone'); return; }
-  const match = pkg.match(/GHS ([\d.]+)/);
-  const amount = match ? parseFloat(match[1]) : 8.4;
-  if(wallet < amount){ alert(`Insufficient Balance popup: You need GHS ${amount.toFixed(2)} but have GHS ${wallet.toFixed(2)} — Same as AFA video logic`); return; }
-  const balBefore = wallet;
-  wallet -= amount;
-  const balAfter = wallet;
-  const order = {id:'ORD-'+Math.floor(Math.random()*900000+100000), size:pkg, recipient:phone, network:network, status:'Delivered', source:'Web', paid:'Yes', balBefore, amount, balAfter};
-  orders.unshift(order);
-  localStorage.setItem('wallet', wallet.toString());
-  localStorage.setItem('orders', JSON.stringify(orders));
-  updateUI();
-  alert(`Order Placed! ${order.id} — ${pkg} to ${phone} — Bal Before GHS ${balBefore.toFixed(2)} → After GHS ${balAfter.toFixed(2)} — MTN EXPRESS BUNDLE Delay Expected 10-60 mins — CEO Portal recorded!`);
-}
-
-function placeAFA(){
-  const amount = 15;
-  if(wallet < amount){ alert(`Insufficient Balance popup: You need GHS 15.00 but have GHS ${wallet.toFixed(2)} — Your information secure — How to Activate Dial *170#`); return; }
-  wallet -= amount;
-  localStorage.setItem('wallet', wallet.toString());
-  updateUI();
-  alert('AFA Registration submitted — MTN numbers only — Cannot be deactivated — Wallet deducted — Confirm & enter MoMo PIN — SMS confirmation');
-}
-
-function updateUI(){
-  document.querySelectorAll('.walletVal').forEach(el=>el.textContent=wallet.toFixed(2));
-  document.getElementById('walletDisplay').textContent='GHS '+wallet.toFixed(2);
-  const rows = orders.map(o=>`<tr><td>${o.id}</td><td>${o.size}</td><td>${o.recipient}</td><td>${o.network}</td><td class="text-green-400">${o.status}</td><td>${o.source}</td><td>${o.paid||'Yes'}</td><td>${o.balBefore.toFixed(2)}</td><td>${o.amount.toFixed(2)}</td><td class="text-yellow-400">${o.balAfter.toFixed(2)}</td></tr>`).join('');
-  const recent = orders.slice(0,5).map(o=>`<tr><td>${o.id}</td><td>${o.size}</td><td>${o.recipient}</td><td>${o.network}</td><td>${o.status}</td><td>${o.balBefore.toFixed(2)}→${o.balAfter.toFixed(2)}</td></tr>`).join('');
-  document.getElementById('allOrdersTable').innerHTML = rows;
-  document.getElementById('recentOrders').innerHTML = recent;
-  document.getElementById('ceoOrders').innerHTML = rows + `<tr><td>EST-001</td><td>HOT CAKE 5-Bed Gbawe GH₵ 2.8M</td><td>Client Patience Adzo</td><td>Zuri Estate — The Milton</td><td>Inquiry</td><td>Web</td><td>Yes</td><td>0</td><td>2505282</td><td>Inquiry</td></tr>`;
-}
-
-renderPackages();
-updateUI();
-showTab('data');
-showDataSub('dashboard');
-</script>
-</body>
-</html>
+ npx create-next-app@latest philisam-empire --tailwind --app
+cd philisam-empire
+npm install @prisma/client prisma recharts lucide-react
+npx prisma init
+# Paste schema.prisma above
+npx prisma db push
+npm run dev
+# Open http://localhost:3000/travel — http://localhost:3000/data — http://localhost:3000/estate — http://localhost:3000/ceo
