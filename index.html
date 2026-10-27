@@ -1,407 +1,67 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KRATIS PREMIUM - Travel • Data • Estate | CEO Philisam</title><script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>body{font-family:Inter,sans-serif}.logo-main{height:52px;width:auto;object-fit:contain}.logo-estate{height:60px;width:auto;object-fit:contain}
-.dark-panel{background:#0F0F13;color:#E5E7EB}.card-dark{background:#1A1A22;border:1px solid #2A2A35}
-.bundle-card{transition:.2s}.bundle-card:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.3)}</style></head>
-<body class="bg-slate-50">
 <script>
-const KRATIS_CONFIG = {
-  ceo:"PHILISAM KWABENA ADDO",
-  contact:{
-    phone1:"0558228524",phone2:"0598456839",whatsapp:"233558228524",whatsappDisplay:"0558228524",
-    emailTravel:"travel@kratispremium.com",emailData:"data@kratispremium.com",emailEstate:"Info@kratispremium.com",
-    address:"Accra, Ghana - Amasaman",refCode:"USR15SF",payTo:"0557730934",payName:"A. HEKABLEE ENTERPRISE - MTN",minDeposit:"GHS 1.00"
-  },
-  agents:[
-    {name:"PHILISAM KWABENA ADDO",role:"CEO - All Websites",phone:"0558228524",whatsapp:"233558228524",image:"https://i.pravatar.cc/150?img=8",props:120},
-    {name:"Jackson Owusu",role:"Real Estate Agent",phone:"0591264385",whatsapp:"233591264385",image:"https://i.pravatar.cc/150?img=15",props:45},
-    {name:"Abigail Addo",role:"Real Estate Agent",phone:"0244729066",whatsapp:"233244729066",image:"https://i.pravatar.cc/150?img=32",props:32},
-    {name:"Alexford Addo",role:"Support",phone:"0558690220",whatsapp:"233558690220",image:"https://i.pravatar.cc/150?img=12",props:0}
-  ],
-  wallet:{balance:1.10,totalOrders:42,pendingOrders:0,completedOrders:42,totalSpent:0},
-  prices:{
-    dataBundles:{
-      MTN:[
-        {size:"1GB",price:5.50,validity:"60 Days"},{size:"2GB",price:10.50,validity:"60 Days"},{size:"3GB",price:14.50,validity:"60 Days"},
-        {size:"4GB",price:18.50,validity:"60 Days"},{size:"5GB",price:22.50,validity:"60 Days"},{size:"8GB",price:34.50,validity:"60 Days"},
-        {size:"10GB",price:42.50,validity:"60 Days"},{size:"15GB",price:62.50,validity:"60 Days"},{size:"20GB",price:82.50,validity:"60 Days"},
-        {size:"25GB",price:98.50,validity:"60 Days"},{size:"30GB",price:115.50,validity:"60 Days"},{size:"40GB",price:152.50,validity:"60 Days"},
-        {size:"50GB",price:185.50,validity:"60 Days"},{size:"100GB",price:320.00,validity:"60 Days"}
-      ],
-      AirtelTigo:[
-        {size:"1GB",price:4.80,validity:"30 Days"},{size:"2GB",price:9.00,validity:"30 Days"},{size:"3GB",price:13.50,validity:"30 Days"},
-        {size:"4GB",price:17.50,validity:"30 Days"},{size:"5GB",price:21.50,validity:"30 Days"},{size:"8GB",price:32.00,validity:"30 Days"},
-        {size:"10GB",price:40.00,validity:"30 Days"},{size:"15GB",price:58.00,validity:"30 Days"},{size:"20GB",price:75.00,validity:"30 Days"},
-        {size:"25GB",price:90.00,validity:"30 Days"},{size:"30GB",price:110.00,validity:"30 Days"}
-      ],
-      Telecel:[
-        {size:"5GB",price:20.00,validity:"30 Days"},{size:"10GB",price:38.00,validity:"30 Days"},{size:"15GB",price:55.00,validity:"30 Days"},
-        {size:"20GB",price:72.00,validity:"30 Days"},{size:"25GB",price:88.00,validity:"30 Days"},{size:"30GB",price:105.00,validity:"30 Days"},
-        {size:"40GB",price:135.00,validity:"30 Days"},{size:"50GB",price:165.00,validity:"30 Days"},{size:"100GB",price:300.00,validity:"30 Days"},
-        {size:"200GB",price:550.00,validity:"30 Days"}
-      ]
-    },
-    afa:{price:15,name:"AFA Registration",desc:"AFA package - Complete form to register"},
-    vouchers:[
-      {name:"WASSCE Results Checker",price:18.00,status:"In Stock",id:"WASSCE",stock:100},
-      {name:"BECE Results Checker",price:15.00,status:"Out of Stock",id:"BECE",stock:0}
-    ],
-    estate:[
-      {title:"HOT CAKE - 5-Bed House in Gbawe",location:"Gbawe, Accra",price:850000,currency:"GHS",beds:5,baths:4,size:"450 sqm",image:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800",type:"For Sale",featured:true},
-      {title:"3-Bed Apartment - East Legon",location:"East Legon",price:450000,currency:"GHS",beds:3,baths:2,size:"220 sqm",image:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",type:"For Sale",featured:true},
-      {title:"Luxury 4-Bed Villa - Trasacco",location:"Trasacco Valley",price:1200000,currency:"GHS",beds:4,baths:5,size:"600 sqm",image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800",type:"For Sale",featured:true},
-      {title:"2-Bed Apartment - Spintex",location:"Spintex",price:280000,currency:"GHS",beds:2,baths:2,size:"150 sqm",image:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800",type:"For Rent",featured:false},
-      {title:"4-Bed House - Airport Residential",location:"Airport",price:950000,currency:"GHS",beds:4,baths:4,size:"500 sqm",image:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800",type:"For Sale",featured:false},
-      {title:"Land - 2 Plots - Gbawe",location:"Gbawe",price:180000,currency:"GHS",beds:0,baths:0,size:"70x100 ft",image:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800",type:"Land",featured:false}
-    ]
-  },
-  blogs:[
-    {title:"5 Tips to Buy Land in Accra Without Being Scammed",category:"Buying Guide",date:"2026-10-20",author:"Ama Boateng",image:"https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600",excerpt:"Verify land documents, check ownership at Lands Commission, avoid fraud. Essential guide."},
-    {title:"Why Gbawe is the Hottest Zone in 2026",category:"Market Update",date:"2026-10-18",author:"Kwame Asante",image:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600",excerpt:"Gbawe appreciated 35% this year. Discover why investors rush there."},
-    {title:"Rent vs Buy: What Makes Sense in Accra?",category:"Investment",date:"2026-10-15",author:"Ama Boateng",image:"https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600",excerpt:"Breakdown monthly costs, ROI, long-term value East Legon."},
-    {title:"How to Inspect a House Before Payment - 15 Point Checklist",category:"Guide",date:"2026-10-10",author:"Kofi Mensah",image:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600",excerpt:"Check plumbing, wiring, documents, drainage before paying."},
-    {title:"Cost of Building 3-Bedroom in Accra 2026",category:"Construction",date:"2026-10-05",author:"PHILISAM KWABENA ADDO",image:"https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600",excerpt:"Full breakdown cement, blocks, labour, roofing 2026 prices."},
-    {title:"Best Areas for Rental Income in Accra",category:"Investment",date:"2026-10-01",author:"Jackson Owusu",image:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600",excerpt:"East Legon, Spintex, Trasacco rental yields compared."}
-  ],
-  referrals:{code:"FP9IQG",link:"https://kratispremium.github.io/kratis-premium/?ref=FP9IQG",total:0,active:0,commission:0.00}
-};
-</script>
-
-<header class="sticky top-0 z-50 bg-white border-b shadow-sm">
-<div class="max-w-7xl mx-auto px-4 h-[72px] flex items-center justify-between">
-<div class="flex items-center">
-<div id="logoTravel" class="flex items-center"><img src="real removed background.png" class="logo-main" alt="KRATIS PREMIUM"></div>
-<div id="logoEstate" class="hidden items-center"><img src="Logo Maker 2026_05_19_12_17_54_edited mnnnnnw.png" class="logo-estate" alt="KRATIS REAL ESTATE"></div>
-</div>
-<nav class="hidden md:flex gap-1">
-<button onclick="showPage('flights')" id="nFlights" class="px-4 py-2 rounded-full bg-slate-900 text-white text-xs font-bold">Flights</button>
-<button onclick="showPage('hotels')" class="px-3 py-2 rounded-full hover:bg-slate-100 text-xs">Hotels</button>
-<button onclick="showPage('packages')" class="px-3 py-2 rounded-full hover:bg-slate-100 text-xs">Packages</button>
-<button onclick="showPage('tours')" class="px-3 py-2 rounded-full hover:bg-slate-100 text-xs">Tours</button>
-<button onclick="showPage('visa')" class="px-3 py-2 rounded-full hover:bg-slate-100 text-xs">Visa</button>
-<button onclick="showPage('data')" id="nData" class="px-4 py-2 rounded-full bg-yellow-400 text-black text-xs font-bold">Data Store</button>
-<button onclick="showPage('estate')" id="nEstate" class="px-4 py-2 rounded-full hover:bg-slate-100 text-xs font-bold text-[#8B0000]">Estate</button>
-</nav>
-<div class="flex gap-2 items-center"> <a id="waHeader" href="#" target="_blank" class="w-9 h-9 rounded-full bg-green-500 text-white flex items-center justify-center"><i class="fab fa-whatsapp"></i></a><button onclick="toggleAdmin()" class="w-9 h-9 rounded-full bg-yellow-400 flex items-center justify-center"><i class="fas fa-cog"></i></button></div>
-</div>
-</header>
-
-<div id="adminPanel" class="hidden bg-slate-900 text-white p-4 border-b-4 border-yellow-400">
-<div class="max-w-7xl mx-auto"><h2 class="font-black mb-3"><i class="fas fa-edit text-yellow-400 mr-2"></i>EASY EDIT - CEO Philisam Control Panel</h2>
-<div class="grid md:grid-cols-4 gap-4">
-<div class="bg-slate-800 p-3 rounded"><h3 class="text-yellow-400 font-bold text-xs mb-2">CONTACT & CEO</h3><div id="editContact"></div><button onclick="saveContact()" class="mt-2 w-full bg-yellow-400 text-black py-2 rounded font-bold text-xs">Save</button></div>
-<div class="bg-slate-800 p-3 rounded"><h3 class="text-sky-400 font-bold text-xs mb-2">MTN PRICES</h3><div id="editMTN" class="space-y-1 max-h-40 overflow-auto"></div><button onclick="savePrices()" class="mt-2 w-full bg-sky-500 py-2 rounded font-bold text-xs">Save MTN</button></div>
-<div class="bg-slate-800 p-3 rounded"><h3 class="text-red-400 font-bold text-xs mb-2">ESTATE PRICES</h3><div id="editEstate" class="space-y-1 max-h-40 overflow-auto"></div><button onclick="saveEstate()" class="mt-2 w-full bg-[#8B0000] py-2 rounded font-bold text-xs">Save Estate</button></div>
-<div class="bg-slate-800 p-3 rounded"><h3 class="text-green-400 font-bold text-xs mb-2">AGENTS</h3><div id="editAgents" class="text-[11px] space-y-1"></div></div>
-</div></div></div>
-
-<!-- FLIGHTS - WAKANOW FULL -->
-<div id="page-flights" class="page"><div class="bg-[#0B1A3A] text-white"><div class="max-w-7xl mx-auto px-4 py-8">
-<div class="flex flex-wrap gap-2 mb-3"><span class="bg-yellow-400 text-black px-4 py-1.5 rounded-full text-[11px] font-bold">✈ YOUR TRAVEL SHOP FOR THE WORLD - IATA CERTIFIED</span></div>
-<h1 class="text-4xl md:text-5xl font-black">One shop, Multiple deals</h1>
-<p class="text-slate-300 mt-2 text-sm">Trusted by 20k travelers • 24/7 Support • Flexible Pay • Manage Booking</p>
-<div class="mt-6 bg-white rounded-2xl p-5 text-black shadow-2xl">
-<div class="flex flex-wrap gap-3 text-sm border-b pb-3 mb-4"><span class="font-bold border-b-2 border-black pb-1 px-3">Flights</span><span class="text-slate-500 px-3 cursor-pointer" onclick="showPage('hotels')">Hotels</span><span class="text-slate-500 px-3">Packages</span><span class="text-slate-500 px-3">Tours</span><span class="text-slate-500 px-3" onclick="showPage('visa')">Visa Assistance</span><span class="text-slate-500 px-3">Manage Booking</span><span class="text-slate-500 px-3">Holiday Calculator</span></div>
-<div class="flex gap-4 mb-4 text-xs font-bold"><label class="flex items-center gap-1"><input type="radio" name="trip" checked> Round Trip</label><label class="flex items-center gap-1"><input type="radio" name="trip"> One Way</label><label class="flex items-center gap-1"><input type="radio" name="trip"> Multi City</label><span class="ml-auto text-[10px] bg-slate-100 px-2 py-1 rounded">Direct flights only</span></div>
-<div class="grid md:grid-cols-6 gap-3">
-<div class="border rounded-xl p-3 bg-slate-50"><label class="text-[10px] font-bold text-slate-500">FROM</label><div class="font-bold text-sm">Accra (ACC)</div><div class="text-[11px] text-slate-500">Kotoka Intl - Amasaman</div></div>
-<div class="border rounded-xl p-3"><label class="text-[10px] font-bold text-slate-500">TO</label><input id="toInput" class="w-full font-bold text-sm outline-none" placeholder="City or airport"><div class="text-[11px] text-slate-400">Where to?</div></div>
-<div class="border rounded-xl p-3"><label class="text-[10px] font-bold text-slate-500">DEPARTURE</label><input type="date" class="w-full text-sm font-bold"><div class="text-[11px] text-slate-400">Select date</div></div>
-<div class="border rounded-xl p-3"><label class="text-[10px] font-bold text-slate-500">RETURN</label><input type="date" class="w-full text-sm"><div class="text-[11px] text-slate-400">Select date</div></div>
-<div class="border rounded-xl p-3"><label class="text-[10px] font-bold text-slate-500">PASSENGERS & CLASS</label><div class="font-bold text-sm">1 Adult</div><div class="text-[11px] text-slate-500">Economy</div></div>
-<div class="flex items-end"><button class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-black py-4 rounded-xl text-sm">Search Flights</button></div>
-</div>
-<div class="mt-4 flex flex-wrap gap-2 text-[10px]"><span class="bg-slate-100 px-2 py-1 rounded">✈ Flexible dates</span><span class="bg-slate-100 px-2 py-1 rounded">✉ travel@kratispremium.com</span></div>
-</div>
-<div class="mt-6 grid md:grid-cols-4 gap-4">
-<div class="bg-white/10 backdrop-blur p-4 rounded-xl flex gap-3"><i class="fas fa-shield-alt text-green-400 text-xl"></i><div><h4 class="font-bold text-sm">IATA Certified - CEO Philisam</h4><p class="text-[11px] text-slate-300">Secure ticketing worldwide</p></div></div>
-<div class="bg-white/10 p-4 rounded-xl flex gap-3"><i class="fas fa-headset text-sky-400 text-xl"></i><div><h4 class="font-bold text-sm">24/7 Support - 0558690220 Alexford</h4><p class="text-[11px] text-slate-300">WhatsApp anytime</p></div></div>
-<div class="bg-white/10 p-4 rounded-xl flex gap-3"><i class="fas fa-wallet text-yellow-400 text-xl"></i><div><h4 class="font-bold text-sm">Flexible Pay</h4><p class="text-[11px] text-slate-300">Book now </p></div></div>
-<div class="bg-white/10 p-4 rounded-xl flex gap-3"><i class="fas fa-map-marker-alt text-red-400 text-xl"></i><div><h4 class="font-bold text-sm">Amasaman - Accra Base</h4><p class="text-[11px] text-slate-300">Travel•Data•Estate</p></div></div>
-</div></div></div>
-<div class="max-w-7xl mx-auto px-4 py-6"><h3 class="font-black text-lg mb-3">Popular Routes from Accra - Managed by travel@kratispremium.com</h3>
-<div class="grid md:grid-cols-4 gap-3"><div class="bg-white p-4 rounded-xl shadow flex justify-between"><div><div class="font-bold text-sm">Accra → London</div></div></div></div></div>
-<div class="max-w-[1400px] mx-auto mt-8 bg-white rounded-2xl p-6 shadow-sm">
-  <div class="flex justify-between items-center mb-5">
-    <h2 class="text-[20px] font-bold text-[#0B1A3A]">Top Hotel Destinations</h2>
-    <a href="#" class="text-[#0B69E6] text-sm font-semibold">See all →</a>
-  </div>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-    <!-- London -->
-    <div class="rounded-xl overflow-hidden border hover:shadow-lg cursor-pointer">
-      <img src="https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=400" class="h-32 w-full object-cover">
-      <div class="p-3">
-        <p class="text-[11px] text-blue-600 font-bold">842+ HOTELS</p>
-        <p class="font-bold text-sm">London</p>
-        <p class="text-[11px] text-gray-500">United Kingdom</p>
-      </div>
-    </div>
-    <!-- Dubai -->
-    <div class="rounded-xl overflow-hidden border hover:shadow-lg cursor-pointer">
-      <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=400" class="h-32 w-full object-cover">
-      <div class="p-3">
-        <p class="text-[11px] text-blue-600 font-bold">315+ HOTELS</p>
-        <p class="font-bold text-sm">Dubai</p>
-        <p class="text-[11px] text-gray-500">United Arab Emirates</p>
-      </div>
-    </div>
-    <!-- New York -->
-    <div class="rounded-xl overflow-hidden border hover:shadow-lg cursor-pointer">
-      <img src="https://images.unsplash.com/photo-1499092346589-b9b4bda5e42f?w=400" class="h-32 w-full object-cover">
-      <div class="p-3">
-        <p class="text-[11px] text-blue-600 font-bold">388+ HOTELS</p>
-        <p class="font-bold text-sm">New York</p>
-        <p class="text-[11px] text-gray-500">United States</p>
-      </div>
-    </div>
-    <!-- Guangzhou -->
-    <div class="rounded-xl overflow-hidden border hover:shadow-lg cursor-pointer">
-      <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=400" class="h-32 w-full object-cover">
-      <div class="p-3">
-        <p class="text-[11px] text-blue-600 font-bold">679+ HOTELS</p>
-        <p class="font-bold text-sm">Guangzhou</p>
-        <p class="text-[11px] text-gray-500">China</p>
-      </div>
-    </div>
-    <!-- Johannesburg -->
-    <div class="rounded-xl overflow-hidden border hover:shadow-lg cursor-pointer">
-      <img src="https://images.unsplash.com/photo-1500835556837-99ac94a94552?w=400" class="h-32 w-full object-cover">
-      <div class="p-3">
-        <p class="text-[11px] text-blue-600 font-bold">88+ HOTELS</p>
-        <p class="font-bold text-sm">Johannesburg</p>
-        <p class="text-[11px] text-gray-500">South Africa</p>
-      </div>
-    </div>
-    <!-- Lagos -->
-    <div class="rounded-xl overflow-hidden border hover:shadow-lg cursor-pointer">
-      <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400" class="h-32 w-full object-cover">
-      <div class="p-3">
-        <p class="text-[11px] text-blue-600 font-bold">110+ HOTELS</p>
-        <p class="font-bold text-sm">Lagos</p>
-        <p class="text-[11px] text-gray-500">Nigeria</p>
-      </div>
-    </div>
-  </div></div>
-<!-- PIECE 3: Offers - Wakanow Style -->
-<div class="max-w-[1400px] mx-auto mt-8 bg-white rounded-2xl p-6 shadow-sm">
-  <div class="flex justify-between items-center mb-5">
-    <div class="flex items-center gap-6">
-      <h2 class="text-[22px] font-extrabold text-[#0B1A3A]">Offers</h2>
-      <div class="flex gap-4 text-sm">
-        <button class="font-bold text-[#0B69E6] border-b-2 border-[#0B69E6] pb-1">All Offers</button>
-        <button class="text-gray-500">Flights</button>
-        <button class="text-gray-500">Hotels</button>
-      </div>
-    </div>
-    <a class="text-[#0B69E6] text-sm font-bold">VIEW ALL</a>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <!-- Accra-Lagos -->
-    <div class="flex rounded-xl border overflow-hidden hover:shadow-md bg-white">
-      <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=300" class="w-32 md:w-36 object-cover">
-      <div class="p-4 flex-1">
-        <p class="text-[10px] text-gray-400 font-bold tracking-widest">FLIGHTS</p>
-        <p class="font-bold mt-1">Accra → Lagos</p>
-        <div class="h-0.5 w-8 bg-blue-600 my-1"></div>
-        <p class="text-[12px] text-gray-500">United Nigeria · 16d · from GH₵4,239</p>
-        <div class="text-right mt-3"><a class="text-[12px] font-extrabold text-blue-700">BOOK NOW</a></div>
-      </div>
-    </div>
-    <!-- Accra-Guangzhou -->
-    <div class="flex rounded-xl border overflow-hidden hover:shadow-md bg-white">
-      <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=300" class="w-32 md:w-36 object-cover">
-      <div class="p-4 flex-1">
-        <p class="text-[10px] text-gray-400 font-bold tracking-widest">FLIGHTS</p>
-        <p class="font-bold mt-1">Accra → GUANGZHOU</p>
-        <p class="text-[12px] text-gray-500">Egyptair · 13d · from GH₵14,363</p>
-        <div class="text-right mt-3"><a class="text-[12px] font-extrabold text-blue-700">BOOK NOW</a></div>
-      </div>
-    </div>
-    <!-- Accra-Kumasi -->
-    <div class="flex rounded-xl border overflow-hidden hover:shadow-md bg-white">
-      <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=300" class="w-32 md:w-36 object-cover">
-      <div class="p-4 flex-1">
-        <p class="text-[10px] text-gray-400 font-bold tracking-widest">FLIGHTS</p>
-        <p class="font-bold mt-1">Accra → Kumasi</p>
-        <p class="text-[12px] text-gray-500">Africa World Airlines · 13d · from GH₵3,112</p>
-        <div class="text-right mt-3"><a class="text-[12px] font-extrabold text-blue-700">BOOK NOW</a></div>
-      </div>
-    </div>
-    <!-- Accra-Abidjan -->
-    <div class="flex rounded-xl border overflow-hidden hover:shadow-md bg-white">
-      <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=300" class="w-32 md:w-36 object-cover">
-      <div class="p-4 flex-1">
-        <p class="text-[10px] text-gray-400 font-bold tracking-widest">FLIGHTS</p>
-        <p class="font-bold mt-1">Accra → Abidjan</p>
-        <p class="text-[12px] text-gray-500">Africa World Airlines · 14d · from GH₵3,072</p>
-        <div class="text-right mt-3"><a class="text-[12px] font-extrabold text-blue-700">BOOK NOW</a></div>
-      </div>
-    </div>
-  </div></div>
-
-
-<!-- DATA - DIGIMALL FULL FROM VIDEO -->
-<div id="page-data" class="page hidden"><div class="bg-[#0f172a] min-h-screen text-white"><div class="max-w-7xl mx-auto px-4">
-<div class="flex items-center justify-between py-3 border-b border-slate-800">
-<div class="flex items-center gap-4"><div class="font-black text-white flex items-center gap-2"><img src="real removed background.png" class="h-7 w-auto bg-white rounded p-0.5"> User Panel</div><div class="hidden md:flex gap-1 bg-[#1A1A22] rounded-full p-1"><button class="bg-white text-black px-3 py-1 rounded-full text-xs font-bold">Workspace</button><button class="px-3 py-1 text-xs text-slate-400">Order</button><button class="px-3 py-1 text-xs text-slate-400">Search</button></div></div>
-<div class="flex items-center gap-3 text-xs"><span class="hidden md:block text-slate-400">Good morning, Philisam</span><span class="bg-[#1A1A22] px-2 py-1 rounded-full">GHS 1.10</span><span class="font-bold">PHILISAM KWABENA ADDO</span><div class="w-7 h-7 bg-yellow-400 rounded-full flex items-center justify-center text-black font-bold">P</div></div>
-</div>
-<div class="grid md:grid-cols-[200px_1fr] gap-0">
-<div class="hidden md:block border-r border-slate-800 pr-3 py-4 space-y-1 text-sm">
-<button class="w-full text-left p-2.5 rounded bg-[#1A1A22] text-white flex gap-2"><span class="w-5">📊</span> Dashboard</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">💼</span> Wallet <span class="ml-auto text-[10px] bg-slate-700 px-1 rounded">GHS 1.10</span></button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">📱</span> MTN</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">📶</span> AirtelTigo</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">📡</span> Telecel</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">🪪</span> AFA Registration</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">🎫</span> Vouchers Shop</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">👥</span> My Referrals</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">💎</span> Premium Groups</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">🎯</span> Services & Offers</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">👑</span> Agent Program</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">📖</span> User Manual</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">📜</span> History</button>
-<button class="w-full text-left p-2.5 rounded hover:bg-[#1A1A22] flex gap-2"><span class="w-5">⚙️</span> Settings</button>
-<div class="pt-4 text-[10px] text-slate-500">Store Dashboard • CEO Philisam<br>data@kratispremium.com<br>0558228524</div>
-</div>
-<div class="p-4">
-<!-- Dashboard -->
-<div id="dataDashboard"><h1 class="text-xl font-bold">Good morning, Philisam</h1><p class="text-xs text-slate-400 mb-4">Your command center - track transactions, insights, and actions at a glance</p>
-<div class="grid md:grid-cols-4 gap-3 mb-6">
-<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><div class="text-[11px] text-slate-400">Wallet Balance</div><div class="text-2xl font-black">GHS 1.10</div><div class="text-[10px] text-green-400">+8.4% <span class="text-slate-500">View Wallet</span></div></div>
-<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><div class="text-[11px] text-slate-400">Total Orders</div><div class="text-2xl font-black">42</div><div class="text-[10px] text-green-400">+8.2% <span class="text-slate-500">All orders</span></div></div>
-<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><div class="text-[11px] text-slate-400">Pending Orders</div><div class="text-2xl font-black">0</div><div class="text-[10px] text-orange-400">-3% <span class="text-slate-500">Pending</span></div></div>
-<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><div class="text-[11px] text-slate-400">Completed Orders</div><div class="text-2xl font-black">42</div><div class="text-[10px] text-green-400">+15.4% <span class="text-slate-500">Completed</span></div></div>
-</div>
-<div class="grid md:grid-cols-[1.5fr_1fr] gap-4 mb-6">
-<div class="bg-[#1A1A22] border border-slate-800 rounded-xl p-4"><div class="flex justify-between items-center mb-3"><h3 class="font-bold text-sm">Recent Orders - Your latest bundle orders</h3><button class="text-[11px] border border-slate-700 px-2 py-1 rounded">View All</button></div>
-<div class="text-[11px] border border-slate-800 rounded-lg overflow-hidden"><div class="grid grid-cols-4 gap-2 p-2 bg-[#1A1A22] text-slate-400"><span>Order ID</span><span>Package</span><span>Network</span><span>Status</span></div>
-<div class="p-2 border-t border-slate-800 grid grid-cols-4 gap-2"><span>ORD-18488</span><span>AirtelTigo GHS 3</span><span>MTN</span><span class="text-green-400">Delivered</span></div>
-<div class="p-2 border-t border-slate-800 grid grid-cols-4 gap-2"><span>ORD-18490</span><span>MTN GHS 3</span><span>MTN</span><span class="text-green-400">Delivered</span></div>
-<div class="p-2 border-t border-slate-800 grid grid-cols-4 gap-2"><span>ORD-182763</span><span>AirtelTigo GHS 3</span><span>MTN</span><span class="text-red-400">Cancelled</span></div>
-</div></div>
-<div class="bg-[#1A1A22] border border-slate-800 rounded-xl p-4"><h3 class="font-bold text-sm mb-3">Recent Deposits</h3><div class="space-y-2 text-xs"><div class="flex justify-between"><span>MTN Share - Add to Cart GHS 4.30</span><span class="text-green-400">Confirmed</span></div><div class="flex justify-between"><span>AirtelTigo Share - Add to Cart GHS 3.59</span><span class="text-green-400">Confirmed</span></div></div>
-<div class="mt-4 bg-[#1A1A22] border border-slate-800 p-3 rounded"><div class="font-bold text-sm">GHS 1.10 Wallet</div><div class="text-[11px] text-slate-400">Top up and special programs</div>
-<div class="mt-3 grid grid-cols-2 gap-2"><button onclick="showDataSection('wallet')" class="bg-yellow-400 text-black py-2 rounded-full text-xs font-bold">Top Up Wallet</button><button class="border border-slate-700 py-2 rounded-full text-xs">Deposit tips</button></div></div></div>
-</div></div>
-<!-- Wallet -->
-<div id="dataWallet" class="hidden"><h2 class="font-bold text-lg mb-3">Top Up Wallet - GHS 1.10</h2><div class="grid md:grid-cols-2 gap-4">
-<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><div class="text-sm">Your Reference Code (Use When Sending Payments)</div><div class="mt-2 bg-black p-3 rounded font-mono font-bold">USR15SF <span class="text-[10px] text-slate-400">Copy</span></div>
-<div class="mt-4 text-sm font-bold">Send Payment To</div><div class="mt-2 bg-[#1A1A22] border border-slate-800 p-3 rounded flex justify-between items-center"><div><div class="font-bold">0557730934</div><div class="text-[11px] text-slate-400">A. HEKABLEE ENTERPRISE - MoMo</div></div><button class="bg-white text-black px-2 py-1 rounded text-xs">Copy</button></div>
-<div class="mt-3 text-[11px] text-slate-400">How to Send Payment<br>1. Send money to any of the numbers above<br>2. Use your reference code as narration<br>3. Auto-verifies instantly (MTN/AirtelTigo only)<br>4. For other networks, claim manually using transaction ID</div>
-<div class="mt-3 flex gap-2"><span class="text-[11px]">Minimum: Claim Unverified Payments</span></div></div>
-<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><h3 class="font-bold text-sm">Recent Deposits</h3><div class="mt-3 text-[11px] border border-slate-800 rounded"><div class="grid grid-cols-4 p-2 bg-[#1A1A22]"><span>ID</span><span>Method</span><span>Amount</span><span>Status</span></div><div class="grid grid-cols-4 p-2 border-t border-slate-800"><span>DEP-000023</span><span>momo</span><span>GHS 10</span><span class="text-green-400">Confirmed</span></div><div class="grid grid-cols-4 p-2 border-t border-slate-800"><span>DEP-000019</span><span>manual</span><span>GHS 20</span><span class="text-green-400">Confirmed</span></div></div></div>
-</div></div>
-<!-- MTN Offers -->
-<div id="dataMTN" class="hidden"><h2 class="font-bold">Explore Our MTN Offers</h2><p class="text-xs text-slate-400 mb-3">Purchase data bundle for single or multiple recipients</p><div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl mb-4 flex justify-between items-center"><div><div class="font-bold">MTN EXPRESS BUNDLED</div><div class="text-[11px] text-slate-400">60 Days • Active • 14 Packages</div></div><span class="bg-yellow-400 text-black px-3 py-1 rounded-full text-xs">Balance: GHS 1.10</span></div>
-<div class="flex gap-2 mb-4 text-xs"><button class="bg-white text-black px-3 py-1 rounded-full">Single Order</button><button class="bg-[#1A1A22] px-3 py-1 rounded-full">Bulk</button><button class="bg-[#1A1A22] px-3 py-1 rounded-full">Excel</button><span class="ml-auto">View: List Grid</span></div>
-<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl mb-4"><div class="grid md:grid-cols-2 gap-3"><div><label class="text-[10px]">Recipient Phone Number</label><input class="w-full bg-[#0F0F13] border border-slate-700 p-2 rounded text-sm" placeholder="0201234567"></div><div><label class="text-[10px]">Package</label><select class="w-full bg-[#0F0F13] border border-slate-700 p-2 rounded text-sm"><option>Select package</option></select></div></div><label class="text-[11px] mt-2 flex gap-2"><input type="checkbox"> Make this a recurring order</label><button class="mt-3 w-full bg-yellow-400 text-black py-2.5 rounded-full font-bold">Place Order</button></div>
-<div id="mtnGrid" class="grid md:grid-cols-4 gap-3"></div>
-<div class="mt-4 bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><h4 class="font-bold text-sm">Recurring Orders - No recurring orders yet</h4><p class="text-[11px] text-slate-400">Set up recurring orders to automate your data purchases</p></div></div>
-<!-- Similar sections for AirtelTigo, Telecel, AFA, Vouchers -->
-<div id="dataAirtel" class="hidden"><h2 class="font-bold">Select AirtelTigo Offer</h2><div id="atGrid" class="grid md:grid-cols-4 gap-3 mt-4"></div></div>
-<div id="dataTelecel" class="hidden"><h2 class="font-bold">Select Telecel Offer</h2><div id="telGrid" class="grid md:grid-cols-4 gap-3 mt-4"></div></div>
-<div id="dataAFA" class="hidden"><h2 class="font-bold">AFA Registration - GHS 15</h2><div class="grid md:grid-cols-2 gap-4 mt-4"><div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><h3 class="font-bold text-sm">Registration Form - Complete all fields to register for AFA bundle</h3><input class="w-full mt-2 bg-[#0F0F13] border border-slate-700 p-2 rounded text-sm" placeholder="E.g., Kwame Mensah"><input class="w-full mt-2 bg-[#0F0F13] border border-slate-700 p-2 rounded text-sm" placeholder="dd/mm/yyyy"><input class="w-full mt-2 bg-[#0F0F13] border border-slate-700 p-2 rounded text-sm" placeholder="Select your region"><input class="w-full mt-2 bg-[#0F0F13] border border-slate-700 p-2 rounded text-sm" placeholder="E.g., Ashaiman, Accra"><button class="mt-3 w-full bg-yellow-400 text-black py-2 rounded-full font-bold">Submit - Verify Balance</button><p class="text-[10px] text-slate-400 mt-2">Your information is secure and will only be used for registration</p></div><div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><h3 class="font-bold text-sm">How to Activate</h3><div class="mt-3 text-xs space-y-2"><div class="flex gap-2"><span class="w-5 h-5 bg-yellow-400 text-black rounded-full flex items-center justify-center text-[10px]">1</span> Create account</div><div class="flex gap-2"><span class="w-5 h-5 bg-yellow-400 text-black rounded-full flex items-center justify-center text-[10px]">2</span> Top up your AFA Bundle</div><div class="flex gap-2"><span class="w-5 h-5 bg-yellow-400 text-black rounded-full flex items-center justify-center text-[10px]">3</span> Receive eSIM activation</div><div class="flex gap-2"><span class="w-5 h-5 bg-yellow-400 text-black rounded-full flex items-center justify-center text-[10px]">4</span> Insert eSIM in phone</div></div></div></div></div>
-<div id="dataVouchers" class="hidden"><h2 class="font-bold">Vouchers Shop</h2><div class="grid md:grid-cols-3 gap-4 mt-4"><div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><h3 class="font-bold">WASSCE Results Checker - GHS 18.00 - In Stock</h3><p class="text-[11px] text-slate-400">11 vouchers available</p><button class="mt-3 w-full bg-green-600 py-2 rounded-full text-xs font-bold">Select & Order - View Cart & Order Summary</button></div><div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><h3 class="font-bold">BECE Results Checker - Out of Stock</h3><p class="text-[11px] text-red-400">0 vouchers - Out of Stock</p><button class="mt-3 w-full bg-slate-700 py-2 rounded-full text-xs">Out of Stock</button></div><div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><h3 class="font-bold">Select & Order</h3><p class="text-[11px] text-slate-400">Choose voucher type to get started - Order Summary</p><div class="mt-3 flex justify-center"><i class="fas fa-shopping-cart text-3xl text-slate-600"></i></div></div></div></div>
-</div></div></div></div></div>
-
-<!-- ESTATE - ZURIE FULL -->
-<div id="page-estate" class="page hidden">
-<div class="relative h-[500px]"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1400" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
-<div class="relative max-w-7xl mx-auto px-4 h-full flex items-center"><div class="text-white max-w-2xl">
-<div class="bg-[#8B0000] inline-block px-4 py-1.5 rounded-full text-[11px] font-bold mb-4">GHANA'S NO.1 REAL ESTATE - EST. 2016 • CEO PHILISAM • 2,500+ Properties • Amasaman Base</div>
-<h1 class="text-4xl md:text-5xl font-black leading-tight">HOT CAKE — 5-Bed House in Gbawe</h1>
-<p class="mt-3 text-sm text-slate-200">No.5 Vanderpuye St, Gbawe - 2026 • 5 Bed • 4 Bath • 450 sqm • Airport View • Documented • No Litigation • Jackson Owusu 0591264385</p>
-<div class="mt-6 flex flex-wrap gap-3"><button onclick="document.getElementById('estateSearch').scrollIntoView()" class="bg-[#8B0000] hover:bg-red-900 px-6 py-3 rounded-full font-bold text-sm">Search Properties - 2,500+</button><button class="bg-white text-black px-6 py-3 rounded-full font-bold text-sm">Explore This Mansion - Airport Residential</button><a href="https://wa.me/233558228524" target="_blank" class="bg-green-500 px-6 py-3 rounded-full font-bold text-sm"><i class="fab fa-whatsapp"></i> WhatsApp CEO Philisam</a></div>
-<div class="mt-8 flex gap-8 text-xs"><div><div class="font-black text-2xl">500+</div><div class="text-slate-300">Houses Sold</div></div><div><div class="font-black text-2xl">1,200+</div><div class="text-slate-300">Happy Clients</div></div><div><div class="font-black text-2xl">8 Years</div><div class="text-slate-300">Experience</div></div><div><div class="font-black text-2xl">CEO Philisam</div><div class="text-slate-300">Amasaman</div></div></div>
-</div></div></div>
-<div id="estateSearch" class="max-w-7xl mx-auto px-4 -mt-10 relative z-10"><div class="bg-white rounded-2xl shadow-2xl p-5 grid md:grid-cols-5 gap-4"><div><label class="text-[10px] font-bold text-slate-500">LOCATION</label><select class="w-full border rounded-xl p-3 text-sm"><option>All • Gbawe</option><option>East Legon</option><option>Trasacco</option><option>Spintex</option><option>Airport</option></select></div><div><label class="text-[10px] font-bold text-slate-500">PRICE RANGE</label><select class="w-full border rounded-xl p-3 text-sm"><option>Any • Below 300k</option><option>300k-800k</option><option>Above 1M</option></select></div><div><label class="text-[10px] font-bold text-slate-500">BEDROOMS</label><select class="w-full border rounded-xl p-3 text-sm"><option>Any • 5 Bed HOT CAKE</option><option>2-4 Bed</option></select></div><div><label class="text-[10px] font-bold text-slate-500">PROPERTY TYPE</label><select class="w-full border rounded-xl p-3 text-sm"><option>All • For Sale</option><option>For Rent • Land</option></select></div><div class="flex items-end"><button onclick="showPage('estate-list')" class="w-full bg-[#8B0000] text-white font-black py-3.5 rounded-xl">Search 2,500 Properties - CEO</button></div></div></div>
-<div class="max-w-7xl mx-auto px-4 py-12"><div class="flex justify-between items-center mb-8"><h2 class="text-3xl font-black">Featured Properties — <span class="text-[#8B0000]">Editable via ⚙️ Cog - CEO Philisam</span></h2><button onclick="showPage('estate-list')" class="border border-black px-5 py-2 rounded-full font-bold text-sm">View All Properties - 6</button></div><div id="estateGrid" class="grid md:grid-cols-3 gap-6"></div></div>
-<div class="bg-[#FFF8F0] py-14 border-y"><div class="max-w-7xl mx-auto px-4"><div class="flex justify-between items-center mb-8"><div><h2 class="text-3xl font-black"><i class="fas fa-blog text-[#8B0000] mr-2"></i>Real Estate Blog & Guides — INSIDE Estate Page</h2><p class="text-sm text-slate-500 mt-1">Tips, market updates, buying guides — By Jackson Owusu, Abigail Addo, Philisam • Info@kratispremium.com</p></div><button onclick="showPage('blogs')" class="hidden md:block bg-slate-900 text-white px-6 py-3 rounded-full text-sm font-bold">View All Blogs →</button></div><div id="blogInsideEstate" class="grid md:grid-cols-3 gap-6"></div><div class="mt-10 grid md:grid-cols-3 gap-6"><div class="bg-white p-5 rounded-2xl shadow"><div class="font-bold">Subscribe to Market Updates - East Legon/Gbawe</div><p class="text-[11px] text-slate-500 mt-1">Weekly Accra price trends via data@kratispremium.com</p><div class="mt-3 flex gap-2"><input placeholder="Email" class="flex-1 border rounded-full px-3 py-2 text-xs"><button class="bg-[#8B0000] text-white px-4 py-2 rounded-full text-xs font-bold">Subscribe</button></div></div><div class="bg-[#8B0000] text-white p-5 rounded-2xl"><div class="font-bold text-lg">Need Help Buying? - Talk to Jackson Owusu 0591264385</div><p class="text-xs mt-2">Our agents verify documents, visit site with you, no litigation. CEO Philisam approved.</p><a href="https://wa.me/233591264385" target="_blank" class="mt-3 inline-block bg-white text-[#8B0000] px-5 py-2 rounded-full text-xs font-bold">WhatsApp Jackson →</a></div><div class="bg-white p-5 rounded-2xl shadow"><div class="font-bold">Agents - Support Alexford Addo 0558690220</div><div class="mt-3 space-y-2 text-xs"><div class="flex justify-between"><span>Jackson Owusu</span><span class="font-bold">0591264385</span></div><div class="flex justify-between"><span>Abigail Addo</span><span class="font-bold">0244729066</span></div><div class="flex justify-between"><span>Alexford Addo</span><span class="font-bold">0558690220</span></div></div><a href="https://wa.me/233558228524" class="mt-3 block bg-green-500 text-white text-center py-2 rounded-full text-xs font-bold">WhatsApp CEO Philisam - 0558228524</a></div></div></div></div>
-<div class="max-w-7xl mx-auto px-4 py-10"><div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-black">Meet Our Agents — CEO Philisam Kwabena Addo Team - Amasaman</h2><span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">Online Now • 0558228524</span></div><div id="agentsGrid" class="grid md:grid-cols-4 gap-4"></div></div>
-</div>
-<div id="page-estate-list" class="page hidden"><div class="max-w-7xl mx-auto px-4 py-8"><button onclick="showPage('estate')" class="mb-4 text-sm font-bold">← Back to Estate</button><h1 class="text-3xl font-black">All Properties - CEO Philisam Kwabena Addo - Amasaman</h1><div id="estateListGrid" class="grid md:grid-cols-3 gap-6 mt-6"></div></div></div>
-<div id="page-blogs" class="page hidden"><div class="max-w-7xl mx-auto px-4 py-8"><button onclick="showPage('estate')" class="mb-4 text-sm">← Back to Estate (Blog is inside Estate)</button><h1 class="text-3xl font-black">Real Estate Blog - All Articles - Info@kratispremium.com</h1><div id="blogsGrid" class="grid md:grid-cols-3 gap-6 mt-8"></div></div></div>
-<div id="page-hotels" class="page hidden"><div class="max-w-7xl mx-auto px-4 py-20 text-center"><h1 class="text-3xl font-black">Hotels - Powered by travel@kratispremium.com - 0558228524</h1></div></div>
-<div id="page-packages" class="page hidden"><div class="max-w-7xl mx-auto px-4 py-20 text-center"><h1 class="text-3xl font-black">Packages - Dubai, London, Mecca</h1></div></div>
-<div id="page-tours" class="page hidden"><div class="max-w-7xl mx-auto px-4 py-20 text-center"><h1 class="text-3xl font-black">Tours - Ghana Tours, Safari</h1></div></div>
-<div id="page-visa" class="page hidden"><div class="max-w-7xl mx-auto px-4 py-20 text-center"><h1 class="text-3xl font-black">Visa Assistance - travel@kratispremium.com - CEO Philisam 0558228524</h1><p class="mt-2">Dubai, UK, USA, Schengen - WhatsApp Support Alexford Addo 0558690220</p><a href="https://wa.me/233558228524" target="_blank" class="mt-4 inline-block bg-green-500 text-white px-6 py-3 rounded-full font-bold">WhatsApp CEO Philisam</a></div></div>
-
-<script>
-function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));const t=document.getElementById('page-'+name);if(t)t.classList.remove('hidden');const travel=document.getElementById('logoTravel'),estate=document.getElementById('logoEstate');if(name==='estate'||name==='estate-list'||name==='blogs'){travel.classList.add('hidden');estate.classList.remove('hidden');estate.classList.add('flex');}else{estate.classList.add('hidden');travel.classList.remove('hidden');travel.classList.add('flex');}window.scrollTo(0,0);}
-function showDataSection(sec){['dataDashboard','dataWallet','dataMTN','dataAirtel','dataTelecel','dataAFA','dataVouchers'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden');});const target=document.getElementById('data'+sec.charAt(0).toUpperCase()+sec.slice(1));if(target)target.classList.remove('hidden');}
+// SINGLE CORRECT VERSION - NO DUPLICATES
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  const t=document.getElementById('page-'+name);
+  if(t) t.classList.remove('hidden');
+  const travel=document.getElementById('logoTravel');
+  const estate=document.getElementById('logoEstate');
+  if(travel && estate){
+    if(name==='estate'||name==='estate-list'||name==='blogs'){
+      travel.classList.add('hidden'); travel.classList.remove('flex');
+      estate.classList.remove('hidden'); estate.classList.add('flex');
+    }else{
+      estate.classList.add('hidden'); estate.classList.remove('flex');
+      travel.classList.remove('hidden'); travel.classList.add('flex');
+    }
+  }
+  window.scrollTo(0,0);
+}
+function showDataSection(sec){
+  const idMap={
+    'dashboard':'dataDashboard','wallet':'dataWallet','mtn':'dataMTN',
+    'airtel':'dataAirtel','airteltigo':'dataAirtel','telecel':'dataTelecel',
+    'afa':'dataAFA','vouchers':'dataVouchers'
+  };
+  const key=sec.toLowerCase().replace(/\s+/g,'');
+  const targetId=idMap[sec] || idMap[key] || 'dataDashboard';
+  ['dataDashboard','dataWallet','dataMTN','dataAirtel','dataTelecel','dataAFA','dataVouchers'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.add('hidden');
+  });
+  const target=document.getElementById(targetId);
+  if(target) target.classList.remove('hidden');
+}
 function toggleAdmin(){const p=document.getElementById('adminPanel');p.classList.toggle('hidden');if(!p.classList.contains('hidden'))loadAdminData();}
-function loadAdminData(){const c=KRATIS_CONFIG.contact;document.getElementById('editContact').innerHTML=`CEO: ${KRATIS_CONFIG.ceo}<br><input id="eP1" value="${c.phone1}" class="w-full p-1 rounded text-black text-xs mb-1"><input id="eP2" value="${c.phone2}" class="w-full p-1 rounded text-black text-xs mb-1"><input id="eWA" value="${c.whatsappDisplay}" class="w-full p-1 rounded text-black text-xs mb-1"><input id="eEmail" value="${c.emailEstate}" class="w-full p-1 rounded text-black text-xs">`;document.getElementById('editMTN').innerHTML=KRATIS_CONFIG.prices.dataBundles.MTN.slice(0,8).map((b,i)=>`<div class="flex gap-1"><span class="text-[10px] w-8">${b.size}</span><input data-mtn-price="${i}" value="${b.price}" class="w-16 p-1 rounded text-black text-xs"></div>`).join('');document.getElementById('editEstate').innerHTML=KRATIS_CONFIG.prices.estate.slice(0,5).map((e,i)=>`<div class="flex gap-1"><span class="text-[9px] w-16">${e.title.substring(0,12)}</span><input data-est-price="${i}" value="${e.price}" class="w-20 p-1 rounded text-black text-xs"></div>`).join('');document.getElementById('editAgents').innerHTML=KRATIS_CONFIG.agents.map(a=>`<div class="border-b border-slate-700 pb-1"><b>${a.name}</b><br>${a.role}<br>${a.phone}</div>`).join('');}
+function loadAdminData(){const c=KRATIS_CONFIG.contact;document.getElementById('editContact').innerHTML=`CEO: ${KRATIS_CONFIG.ceo}<br><input id="eP1" value="${c.phone1}" class="w-full p-1 rounded text-black text-xs mb-1">`;document.getElementById('editMTN').innerHTML=KRATIS_CONFIG.prices.dataBundles.MTN.slice(0,8).map((b,i)=>`<div class="flex gap-1"><span class="text-[10px] w-8">${b.size}</span><input data-mtn-price="${i}" value="${b.price}" class="w-16 p-1 rounded text-black text-xs"></div>`).join('');document.getElementById('editEstate').innerHTML=KRATIS_CONFIG.prices.estate.slice(0,5).map((e,i)=>`<div class="flex gap-1"><span class="text-[9px] w-16">${e.title.substring(0,12)}</span><input data-est-price="${i}" value="${e.price}" class="w-20 p-1 rounded text-black text-xs"></div>`).join('');document.getElementById('editAgents').innerHTML=KRATIS_CONFIG.agents.map(a=>`<div class="border-b border-slate-700 pb-1"><b>${a.name}</b><br>${a.role}<br>${a.phone}</div>`).join('');}
 function saveContact(){const p1=document.getElementById('eP1');if(p1)KRATIS_CONFIG.contact.phone1=p1.value;renderAll();alert('Saved!');}
 function savePrices(){document.querySelectorAll('[data-mtn-price]').forEach(inp=>{KRATIS_CONFIG.prices.dataBundles.MTN[inp.getAttribute('data-mtn-price')].price=parseFloat(inp.value);});renderAll();}
 function saveEstate(){document.querySelectorAll('[data-est-price]').forEach(inp=>{KRATIS_CONFIG.prices.estate[inp.getAttribute('data-est-price')].price=parseInt(inp.value);});renderAll();}
 function renderAll(){
   const c=KRATIS_CONFIG.contact;const wa=c.whatsapp;
-  document.getElementById('waHeader').href=`https://wa.me/${wa}?text=Hi CEO Philisam - KRATIS PREMIUM`;
-  const makeEstateCard=(e)=>`<div class="bg-white rounded-2xl shadow overflow-hidden hover:shadow-xl transition"><div class="relative h-52"><img src="${e.image}" class="w-full h-full object-cover"><div class="absolute top-2 left-2 bg-[#8B0000] text-white px-2.5 py-1 rounded-full text-[10px] font-bold">${e.location} • ${e.type}</div><div class="absolute top-2 right-2 bg-yellow-400 text-black px-2 py-1 rounded-full text-[10px] font-bold">${e.beds>0?e.beds+'B•'+e.baths+'Ba':''} ${e.size}</div></div><div class="p-4"><h3 class="font-bold text-sm">${e.title}</h3><div class="mt-2 flex justify-between items-center"><span class="font-black text-[#8B0000] text-lg">${e.currency} ${e.price.toLocaleString()}</span><span class="text-[10px] bg-slate-100 px-2 py-1 rounded-full">CEO: Philisam</span></div><div class="mt-3 flex gap-2"><a href="https://wa.me/${wa}?text=Interested in ${encodeURIComponent(e.title)} - ${e.location}" target="_blank" class="flex-1 bg-green-500 text-white text-center py-2.5 rounded-full text-xs font-bold"><i class="fab fa-whatsapp"></i> Enquire Jackson/Abigail</a><button class="flex-1 border py-2.5 rounded-full text-xs font-bold">Details - Info@</button></div></div></div>`;
-  document.getElementById('estateGrid').innerHTML=KRATIS_CONFIG.prices.estate.slice(0,3).map(makeEstateCard).join('');
-  document.getElementById('estateListGrid').innerHTML=KRATIS_CONFIG.prices.estate.map(makeEstateCard).join('');
-  const makeBlog=(b)=>`<div class="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition"><img src="${b.image}" class="h-44 w-full object-cover"><div class="p-4"><div class="flex justify-between"><span class="bg-slate-900 text-white px-2 py-1 rounded-full text-[9px] font-bold">${b.category}</span><span class="text-[10px] text-slate-400">${b.date}</span></div><h3 class="font-bold text-[14px] mt-2">${b.title}</h3><p class="text-[12px] text-slate-500 mt-1">${b.excerpt}</p><div class="mt-3 flex justify-between text-[10px]"><span class="text-slate-400">By ${b.author} • CEO Philisam</span><span class="text-[#8B0000] font-bold">Read More →</span></div></div></div>`;
-  document.getElementById('blogInsideEstate').innerHTML=KRATIS_CONFIG.blogs.slice(0,6).map(makeBlog).join('');
-  document.getElementById('blogsGrid').innerHTML=KRATIS_CONFIG.blogs.map(makeBlog).join('');
-  const makeAgent=(a)=>`<div class="bg-white rounded-xl shadow p-4 flex gap-3"><img src="${a.image}" class="w-14 h-14 rounded-full"><div class="flex-1"><div class="font-bold text-sm">${a.name}</div><div class="text-[11px] text-slate-500">${a.role}</div><div class="text-[11px] mt-1 font-bold">${a.phone} • ${a.whatsapp}</div><div class="mt-2 flex gap-2"><a href="https://wa.me/${a.whatsapp}" target="_blank" class="bg-green-500 text-white px-3 py-1 rounded-full text-[10px] font-bold">WhatsApp</a><button class="border px-3 py-1 rounded-full text-[10px]">${a.props} props</button></div></div></div>`;
-  document.getElementById('agentsGrid').innerHTML=KRATIS_CONFIG.agents.map(makeAgent).join('');
-  const makeBundle=(b)=>`<div class="bg-[#1A1A22] border border-slate-800 bundle-card p-4 rounded-xl border-slate-800"><div class="flex justify-between"><div><div class="font-bold text-yellow-400">${b.size}</div><div class="text-[11px] text-slate-400">${b.validity} • MTN Express • Non-expiry</div></div><div class="text-right"><div class="font-black text-white">GHS ${b.price}</div><button class="mt-1 bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-bold">Buy Now</button></div></div></div>`;
-  document.getElementById('mtnGrid').innerHTML=KRATIS_CONFIG.prices.dataBundles.MTN.map(makeBundle).join('');
-  const makeAT=(b)=>`<div class="bg-[#1A1A22] border border-slate-800 bundle-card p-4 rounded-xl border border-slate-800"><div class="font-bold text-sky-400">${b.size}</div><div class="text-[11px] text-slate-400">${b.validity}</div><div class="mt-2 font-black">GHS ${b.price}</div><button class="mt-2 w-full bg-sky-500 text-white py-1.5 rounded-full text-xs font-bold">Buy Now</button></div>`;
-  document.getElementById('atGrid').innerHTML=KRATIS_CONFIG.prices.dataBundles.AirtelTigo.map(makeAT).join('');
-  const makeTel=(b)=>`<div class="bg-[#1A1A22] border border-slate-800 bundle-card p-4 rounded-xl border border-slate-800"><div class="font-bold text-red-400">${b.size}</div><div class="text-[11px] text-slate-400">${b.validity}</div><div class="mt-2 font-black">GHS ${b.price}</div><button class="mt-2 w-full bg-red-600 text-white py-1.5 rounded-full text-xs font-bold">Buy Now</button></div>`;
-  document.getElementById('telGrid').innerHTML=KRATIS_CONFIG.prices.dataBundles.Telecel.map(makeTel).join('');
-}
-function filterData(network){
-  showPage('data');
-  if(network==='MTN')showDataSection('MTN');
-  else if(network==='AirtelTigo')showDataSection('Airtel');
-  else if(network==='Telecel')showDataSection('Telecel');
+  document.getElementById('waHeader').href=`https://wa.me/${wa}`;
+  const makeEstateCard=(e)=>`<div class="bg-white rounded-2xl shadow overflow-hidden"><div class="relative h-52"><img src="${e.image}" class="w-full h-full object-cover"><div class="absolute top-2 left-2 bg-[#8B0000] text-white px-2.5 py-1 rounded-full text-[10px] font-bold">${e.location}</div></div><div class="p-4"><h3 class="font-bold text-sm">${e.title}</h3><div class="mt-2"><span class="font-black text-[#8B0000]">${e.currency} ${e.price.toLocaleString()}</span></div><div class="mt-3 flex gap-2"><a href="https://wa.me/${wa}?text=Interested in ${encodeURIComponent(e.title)}" target="_blank" class="flex-1 bg-green-500 text-white text-center py-2.5 rounded-full text-xs font-bold">WhatsApp</a><button class="flex-1 border py-2.5 rounded-full text-xs">Details</button></div></div></div>`;
+  const eg=document.getElementById('estateGrid'); if(eg) eg.innerHTML=KRATIS_CONFIG.prices.estate.slice(0,3).map(makeEstateCard).join('');
+  const elg=document.getElementById('estateListGrid'); if(elg) elg.innerHTML=KRATIS_CONFIG.prices.estate.map(makeEstateCard).join('');
+  const makeBlog=(b)=>`<div class="bg-white rounded-xl shadow overflow-hidden"><img src="${b.image}" class="h-44 w-full object-cover"><div class="p-4"><span class="bg-slate-900 text-white px-2 py-1 rounded-full text-[9px]">${b.category}</span><h3 class="font-bold text-[14px] mt-2">${b.title}</h3><p class="text-[12px] text-slate-500 mt-1">${b.excerpt}</p></div></div>`;
+  const bie=document.getElementById('blogInsideEstate'); if(bie) bie.innerHTML=KRATIS_CONFIG.blogs.slice(0,6).map(makeBlog).join('');
+  const bg=document.getElementById('blogsGrid'); if(bg) bg.innerHTML=KRATIS_CONFIG.blogs.map(makeBlog).join('');
+  const makeAgent=(a)=>`<div class="bg-white rounded-xl shadow p-4 flex gap-3"><img src="${a.image}" class="w-14 h-14 rounded-full"><div><div class="font-bold text-sm">${a.name}</div><div class="text-[11px]">${a.role}</div><div class="text-[11px] mt-1">${a.phone}</div></div></div>`;
+  const ag=document.getElementById('agentsGrid'); if(ag) ag.innerHTML=KRATIS_CONFIG.agents.map(makeAgent).join('');
+  const makeBundle=(b)=>`<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><div class="flex justify-between"><div><div class="font-bold text-yellow-400">${b.size}</div><div class="text-[11px] text-slate-400">${b.validity}</div></div><div class="text-right"><div class="font-black">GHS ${b.price}</div><button class="mt-1 bg-yellow-400 text-black px-3 py-1 rounded-full text-[10px] font-bold">Buy Now</button></div></div></div>`;
+  const mg=document.getElementById('mtnGrid'); if(mg) mg.innerHTML=KRATIS_CONFIG.prices.dataBundles.MTN.map(makeBundle).join('');
+  const makeAT=(b)=>`<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><div class="font-bold text-sky-400">${b.size}</div><div class="text-[11px]">${b.validity}</div><div class="mt-2 font-black">GHS ${b.price}</div><button class="mt-2 w-full bg-sky-500 py-1.5 rounded-full text-xs">Buy Now</button></div>`;
+  const atg=document.getElementById('atGrid'); if(atg) atg.innerHTML=KRATIS_CONFIG.prices.dataBundles.AirtelTigo.map(makeAT).join('');
+  const makeTel=(b)=>`<div class="bg-[#1A1A22] border border-slate-800 p-4 rounded-xl"><div class="font-bold text-red-400">${b.size}</div><div class="text-[11px]">${b.validity}</div><div class="mt-2 font-black">GHS ${b.price}</div><button class="mt-2 w-full bg-red-600 py-1.5 rounded-full text-xs">Buy Now</button></div>`;
+  const tg=document.getElementById('telGrid'); if(tg) tg.innerHTML=KRATIS_CONFIG.prices.dataBundles.Telecel.map(makeTel).join('');
 }
 document.addEventListener('DOMContentLoaded',()=>{
   renderAll();
-  showPage('data');
-  showDataSection('Dashboard');
-  document.querySelectorAll('[onclick*="showDataSection"]').forEach(()=>{});
-  // Make sidebar buttons work
-  document.querySelectorAll('.dark-panel button').forEach(btn=>{
-    const txt=btn.textContent.trim();
-    if(txt.includes('Dashboard'))btn.onclick=()=>showDataSection('Dashboard');
-    if(txt.includes('Wallet'))btn.onclick=()=>showDataSection('Wallet');
-    if(txt.includes('MTN')&&!txt.includes('MTN Share'))btn.onclick=()=>showDataSection('MTN');
-    if(txt.includes('AirtelTigo'))btn.onclick=()=>showDataSection('Airtel');
-    if(txt.includes('Telecel'))btn.onclick=()=>showDataSection('Telecel');
-    if(txt.includes('AFA'))btn.onclick=()=>showDataSection('AFA');
-    if(txt.includes('Vouchers'))btn.onclick=()=>showDataSection('Vouchers');
+  showPage('flights');
+  document.querySelectorAll('#dataSidebar button').forEach(btn=>{
+    btn.addEventListener('click',()=>{ 
+      const sec=btn.getAttribute('data-sec');
+      showDataSection(sec);
+    });
   });
 });
-function showPage(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
-  const el=document.getElementById('page-'+name);
-  if(el) el.classList.remove('hidden');
-  window.scrollTo(0,0);
-}
-function showDataSection(name){
-  const map={dashboard:'dataDashboard',wallet:'dataWallet',mtn:'dataMTN',airtel:'dataAirtel',aFA:'dataAFA',telecel:'dataTelecel',vouchers:'dataVouchers',mTN:'dataMTN',airtelTigo:'dataAirtel',afa:'dataAFA'};
-  const key=name.toLowerCase().replace(/[^a-z]/g,'');
-  let targetId=map[name] || map[key] || 'data'+name.charAt(0).toUpperCase()+name.slice(1).toLowerCase();
-  if(name==='MTN') targetId='dataMTN';
-  if(name.toLowerCase().includes('airtel')) targetId='dataAirtel';
-  if(name.toLowerCase().includes('wallet')) targetId='dataWallet';
-  // hide all data sections
-  ['dataDashboard','dataWallet','dataMTN','dataAirtel','dataTelecel','dataAFA','dataVouchers','dataWalletSection','dataMtnSection'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.classList.add('hidden');
-  });
-  const target=document.getElementById(targetId) || document.getElementById('data'+name);
-  if(target){
-    target.classList.remove('hidden');
-  } else {
-    console.log('Missing: '+targetId);
-    document.getElementById('dataDashboard')?.classList.remove('hidden');
-  }
-}
 </script></body></html>
