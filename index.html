@@ -243,7 +243,7 @@ const KRATIS_CONFIG = {
 
 
 <!-- DATA - DIGIMALL FULL FROM VIDEO -->
-<div id="page-data" class="page" style="display:block !important;"><div class="bg-slate-900 min-h-screen text-white"><div class="max-w-7xl mx-auto px-4">
+<div id="page-data" class="page hidden"><div class="bg-[#0f172a] min-h-screen text-white"><div class="max-w-7xl mx-auto px-4">
 <div class="flex items-center justify-between py-3 border-b border-slate-800">
 <div class="flex items-center gap-4"><div class="font-black text-white flex items-center gap-2"><img src="real removed background.png" class="h-7 w-auto bg-white rounded p-0.5"> User Panel</div><div class="hidden md:flex gap-1 bg-[#1A1A22] rounded-full p-1"><button class="bg-white text-black px-3 py-1 rounded-full text-xs font-bold">Workspace</button><button class="px-3 py-1 text-xs text-slate-400">Order</button><button class="px-3 py-1 text-xs text-slate-400">Search</button></div></div>
 <div class="flex items-center gap-3 text-xs"><span class="hidden md:block text-slate-400">Good morning, Philisam</span><span class="bg-[#1A1A22] px-2 py-1 rounded-full">GHS 1.10</span><span class="font-bold">PHILISAM KWABENA ADDO</span><div class="w-7 h-7 bg-yellow-400 rounded-full flex items-center justify-center text-black font-bold">P</div></div>
@@ -378,4 +378,30 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(txt.includes('Vouchers'))btn.onclick=()=>showDataSection('Vouchers');
   });
 });
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  const el=document.getElementById('page-'+name);
+  if(el) el.classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+function showDataSection(name){
+  const map={dashboard:'dataDashboard',wallet:'dataWallet',mtn:'dataMTN',airtel:'dataAirtel',aFA:'dataAFA',telecel:'dataTelecel',vouchers:'dataVouchers',mTN:'dataMTN',airtelTigo:'dataAirtel',afa:'dataAFA'};
+  const key=name.toLowerCase().replace(/[^a-z]/g,'');
+  let targetId=map[name] || map[key] || 'data'+name.charAt(0).toUpperCase()+name.slice(1).toLowerCase();
+  if(name==='MTN') targetId='dataMTN';
+  if(name.toLowerCase().includes('airtel')) targetId='dataAirtel';
+  if(name.toLowerCase().includes('wallet')) targetId='dataWallet';
+  // hide all data sections
+  ['dataDashboard','dataWallet','dataMTN','dataAirtel','dataTelecel','dataAFA','dataVouchers','dataWalletSection','dataMtnSection'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.add('hidden');
+  });
+  const target=document.getElementById(targetId) || document.getElementById('data'+name);
+  if(target){
+    target.classList.remove('hidden');
+  } else {
+    console.log('Missing: '+targetId);
+    document.getElementById('dataDashboard')?.classList.remove('hidden');
+  }
+}
 </script></body></html>
