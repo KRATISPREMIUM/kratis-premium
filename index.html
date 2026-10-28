@@ -17,7 +17,7 @@
 <a onclick="showPage('packages')" class="hover:text-[#ffb700] cursor-pointer">Packages</a>
 <a onclick="showPage('tours')" class="hover:text-[#ffb700] cursor-pointer">Tours</a>
 <a onclick="showPage('visa')" class="hover:text-[#ffb700] cursor-pointer">Visa</a>
-<a class="hover:text-[#ffb700] cursor-pointer">Manage Booking</a>
+<a onclick="showPage('manage')" class="hover:text-[#ffb700] cursor-pointer">Manage Booking</a>
 </nav></div>
 <div class="flex gap-4 items-center"><span class="text-white text-[13px]">EN</span><button class="bg-[#ffb700] text-black font-black text-[13px] px-6 py-2.5 rounded-full">Log in / Sign up</button></div>
 </div>
@@ -156,6 +156,33 @@
 </div>
 <div id="visa-page" class="hidden"><section class="bg-[#0a1931] py-16 text-center"><h1 class="text-white text-[32px] font-black">Visa Services</h1><button onclick="showPage('home')" class="mt-6 bg-[#ffb700] text-black px-6 py-2 rounded-full font-bold">Back to Home</button></section></div>
 
+<!-- MANAGE BOOKING PAGE - EXACT FROM YOUR VIDEO -->
+<div id="manage-page" class="hidden">
+<div class="bg-[#0a1931] min-h-[500px] flex items-center">
+<div class="max-w-[1400px] mx-auto px-6 w-full grid md:grid-cols-2 gap-12 py-16">
+<div>
+<div class="text-[#ffb700] text-[11px] font-black tracking-[2px]">WAKANOW SELF SERVICE</div>
+<h1 class="text-white text-[36px] font-black mt-2 leading-tight">Manage My Booking</h1>
+<p class="text-[#b0c4de] text-[14px] mt-4 leading-relaxed">Find a trip with your booking reference and traveller surname, then view the next steps for tickets, vouchers, changes and support.</p>
+</div>
+<div class="bg-white rounded-[16px] p-7 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+<div class="flex items-start gap-3">
+<div class="bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center"><i class="fa-regular fa-file-lines text-blue-600"></i></div>
+<div><div class="font-black text-[16px] text-[#0a1931]">Find your booking</div><div class="text-[12px] text-gray-500 mt-1">Enter booking reference, surname and email to look up your booking</div></div>
+</div>
+<div class="mt-6"><label class="text-[11px] font-black text-gray-500">BOOKING REFERENCE</label><input placeholder="e.g. 260400400032" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-2 text-[14px] outline-none focus:border-[#0a1931]"></div>
+<div class="mt-4"><label class="text-[11px] font-black text-gray-500">TRAVELLER SURNAME</label><input placeholder="e.g. Sikiru" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-2 text-[14px] outline-none focus:border-[#0a1931]"></div>
+<div class="mt-4"><label class="text-[11px] font-black text-gray-500">TRAVELLER EMAIL</label><input placeholder="e.g. traveller@email.com" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 mt-2 text-[14px] outline-none focus:border-[#0a1931]"></div>
+<button class="w-full bg-[#ff7a00] hover:bg-orange-600 text-white font-black py-3.5 rounded-xl mt-6 text-[14px]">Search booking</button>
+</div>
+</div>
+</div>
+<div class="max-w-[900px] mx-auto px-6 py-16 text-center">
+<div class="w-12 h-12 bg-gray-100 rounded-full mx-auto flex items-center justify-center"><i class="fa-solid fa-ticket text-gray-400"></i></div>
+<h3 class="font-black text-[18px] text-[#0a1931] mt-4">Enter your booking details to begin</h3>
+<p class="text-[13px] text-gray-500 mt-2 max-w-[500px] mx-auto">Once found, the booking workspace will show change options, travel documents, payment summary and support information.</p>
+</div>
+</div>
 <section class="bg-[#0a1931] mt-0"><div class="max-w-[1400px] mx-auto px-6 py-14 grid md:grid-cols-2 gap-12"><div class="text-white"><h3 class="text-[28px] font-black">Book on the go</h3><p class="text-[14px] text-slate-300 mt-3">Get exclusive app-only deals, manage bookings, real-time updates.</p><div class="flex gap-4 mt-6"><div class="bg-white text-black px-6 py-3 rounded-xl text-[13px] font-black"><i class="fa-brands fa-apple"></i> App Store</div><div class="bg-white text-black px-6 py-3 rounded-xl text-[13px] font-black"><i class="fa-brands fa-google-play"></i> Google Play</div></div></div><div class="bg-white/[0.06] border border-white/10 rounded-[20px] p-8"><h3 class="text-white font-black text-[22px]">Never miss a deal</h3><p class="text-slate-300 text-[13px] mt-2">Get best flight and hotel deals straight to your inbox.</p><div class="flex gap-3 mt-6"><input placeholder="Enter your email" class="flex-1 rounded-full px-6 py-3.5 text-[14px] text-black bg-white outline-none"><button class="bg-[#ffb700] text-black font-black px-8 rounded-full text-[14px]">Subscribe</button></div></div></div>
 <div class="max-w-[1400px] mx-auto px-6 py-12 grid md:grid-cols-4 gap-10 border-t border-white/10"><div><div class="flex items-center gap-2"><img src="real removed background.png" class="h-8 bg-white rounded p-1"><span class="font-black text-white">KRATIS PREMIUM</span></div><p class="text-[13px] text-slate-400 mt-4">KRATIS PREMIUM TRAVEL<br>CEO Philisam Kwabena Addo<br>0558228524 / 0598456839<br>travel@kratispremium.com<br>Amasaman, Accra</p></div><div><div class="font-black text-white">Products</div><div class="mt-4 space-y-2 text-[13px] text-slate-400"><p>Flights</p><p>Hotels</p><p>Packages</p><p>Tours</p><p>Visa</p></div></div><div><div class="font-black text-white">Support</div><div class="mt-4 space-y-2 text-[13px] text-slate-400"><p>Help Centre</p><p>Contact Us</p><p>Manage Booking</p></div></div><div><div class="font-black text-white">Company</div><div class="mt-4 space-y-2 text-[13px] text-slate-400"><p>About</p><p>Blog</p><p>Refer</p></div></div></div>
 <div class="max-w-[1400px] mx-auto px-6 py-6 border-t border-white/10 text-[11px] text-slate-500">© 2026 Kratis Premium - CEO 0558228524 - No Pay Small Small</div>
@@ -169,14 +196,14 @@ document.getElementById('hotels-page').classList.add('hidden');
 document.getElementById('packages-page').classList.add('hidden');
 document.getElementById('tours-page').classList.add('hidden');
 document.getElementById('visa-page').classList.add('hidden');
+document.getElementById('manage-page').classList.add('hidden');
 if(page==='home') document.getElementById('home-page').classList.remove('hidden');
 if(page==='flights') document.getElementById('flights-page').classList.remove('hidden');
 if(page==='hotels') document.getElementById('hotels-page').classList.remove('hidden');
 if(page==='packages') document.getElementById('packages-page').classList.remove('hidden');
 if(page==='tours') document.getElementById('tours-page').classList.remove('hidden');
 if(page==='visa') document.getElementById('visa-page').classList.remove('hidden');
+if(page==='manage') document.getElementById('manage-page').classList.remove('hidden');
 window.scrollTo(0,0);
 }
 </script>
-</body>
-</html>
