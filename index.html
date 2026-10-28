@@ -96,7 +96,35 @@
 </div>
 </div>
 </div>
-<div id="packages-page" class="hidden"><section class="bg-[#0a1931] py-16 text-center"><h1 class="text-white text-[32px] font-black">Holiday Packages</h1><p class="text-slate-300 mt-2">Packages page - from Wakanow</p><button onclick="showPage('home')" class="mt-6 bg-[#ffb700] text-black px-6 py-2 rounded-full font-bold">Back to Home</button></section></div>
+<div id="packages-page" class="hidden">
+<section class="bg-[#0a1931] pt-8 pb-24">
+<div class="max-w-[1400px] mx-auto px-6">
+<div class="text-[#7fb0ff] text-[12px]">Home > Packages</div>
+<h1 class="text-white text-[28px] font-black mt-2">Holiday Packages</h1>
+<p class="text-[#b0c4de] text-[13px] mt-1">Flights + Hotels + Activities - all in one booking. Save more, stress less.</p>
+</div>
+</section>
+<div class="max-w-[1400px] mx-auto px-6 -mt-[60px] relative z-20">
+<div class="bg-white rounded-[16px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6">
+<div class="flex gap-2 pb-4 border-b">
+<button onclick="showPage('flights')" class="bg-gray-100 px-4 py-2 rounded-full text-[13px]"><i class="fa-solid fa-plane"></i> Flights</button>
+<button onclick="showPage('hotels')" class="bg-gray-100 px-4 py-2 rounded-full text-[13px]"><i class="fa-solid fa-bed"></i> Hotels</button>
+<button class="bg-[#0a1931] text-white px-4 py-2 rounded-full text-[13px] font-bold"><i class="fa-solid fa-suitcase"></i> Packages</button>
+<button onclick="showPage('tours')" class="bg-gray-100 px-4 py-2 rounded-full text-[13px]"><i class="fa-solid fa-map"></i> Tours</button>
+<button onclick="showPage('visa')" class="bg-gray-100 px-4 py-2 rounded-full text-[13px]"><i class="fa-solid fa-passport"></i> Visa</button>
+</div>
+<div class="grid lg:grid-cols-[1fr_1fr_0.7fr_0.7fr_0.8fr_auto] gap-3 mt-5">
+<div class="border-2 border-gray-200 rounded-xl p-4"><div class="text-[11px] font-black text-gray-400">FROM</div><input class="w-full text-[14px] font-bold mt-1 outline-none" placeholder="City or airport"></div>
+<div class="border-2 border-gray-200 rounded-xl p-4"><div class="text-[11px] font-black text-gray-400">DESTINATION CITY</div><input class="w-full text-[14px] font-bold mt-1 outline-none" placeholder="City"></div>
+<div class="border-2 border-gray-200 rounded-xl p-4"><div class="text-[11px] font-black text-gray-400">DEPARTURE</div><div class="text-[13px] text-gray-400 mt-1"><i class="fa-regular fa-calendar"></i> Select date</div></div>
+<div class="border-2 border-gray-200 rounded-xl p-4"><div class="text-[11px] font-black text-gray-400">RETURN</div><div class="text-[13px] text-gray-400 mt-1"><i class="fa-regular fa-calendar"></i> Select date</div></div>
+<div class="border-2 border-gray-200 rounded-xl p-4"><div class="text-[11px] font-black text-gray-400">TRAVELLERS</div><div class="text-[13px] font-bold mt-1"><i class="fa-solid fa-user"></i> 2 Adults</div></div>
+<button class="bg-[#0e59e0] text-white font-black px-7 py-3 rounded-xl text-[13px] h-[56px] self-end">Build a package</button>
+</div>
+</div>
+</div>
+<div class="h-[250px] bg-white mt-8"></div>
+</div>
 <div id="tours-page" class="hidden"><section class="bg-[#0a1931] py-16 text-center"><h1 class="text-white text-[32px] font-black">Tours & Experiences</h1><button onclick="showPage('home')" class="mt-6 bg-[#ffb700] text-black px-6 py-2 rounded-full font-bold">Back to Home</button></section></div>
 <div id="visa-page" class="hidden"><section class="bg-[#0a1931] py-16 text-center"><h1 class="text-white text-[32px] font-black">Visa Services</h1><button onclick="showPage('home')" class="mt-6 bg-[#ffb700] text-black px-6 py-2 rounded-full font-bold">Back to Home</button></section></div>
 
