@@ -168,7 +168,7 @@
 <div class="w-16 h-16 bg-[#0a1931] rounded-full mx-auto flex items-center justify-center"><i class="fa-solid fa-lock text-[#ffb700] text-[24px]"></i></div>
 <h2 class="font-black text-[24px] text-[#0a1931] mt-5">Visa page na for registered clients only</h2>
 <p class="text-[14px] text-gray-500 mt-3">Log in or create your Client Account first. After login, you go see countries, documents, fees, and apply.</p>
-<button onclick="openLogin()" class="mt-7 bg-[#ffb700] text-black font-black px-8 py-3.5 rounded-full text-[14px]">Log in to Continue</button>
+<button onclick="openAuth('client')" class="mt-7 bg-[#ffb700] text-black font-black px-8 py-3.5 rounded-full text-[14px]">Get Started — Create Client Account</button>
 <p class="text-[12px] text-gray-400 mt-4">No account? Click Log in / Sign up for top — Get Started form go open.</p>
 </div>
 
@@ -183,15 +183,18 @@
 <div class="grid md:grid-cols-4 gap-5 mt-6" id="visaCountries"></div>
 
 <div class="bg-white rounded-[20px] shadow p-7 mt-10">
-<h3 class="font-black text-[20px] text-[#0a1931]">Apply for Visa</h3>
-<p class="text-[13px] text-gray-500 mt-1">Fill am — your agent go see am for dashboard.</p>
-<div class="grid md:grid-cols-3 gap-4 mt-6">
-<select id="vCountry" class="border-2 rounded-xl px-4 py-3 text-[14px]"><option>USA</option><option>Canada</option><option>UK</option><option>Australia</option><option>Finland</option><option>Norway</option><option>Sweden</option><option>New Zealand</option></select>
-<select id="vType" class="border-2 rounded-xl px-4 py-3 text-[14px]"><option>Study</option><option>Work</option><option>Visit</option></select>
-<input id="vDate" type="date" class="border-2 rounded-xl px-4 py-3 text-[14px]">
+<h3 class="font-black text-[20px] text-[#0a1931]">Your Visa Stage — Progress</h3>
+<div class="flex flex-wrap gap-2 mt-5">
+<span class="bg-[#0a1931] text-white text-[12px] font-black px-4 py-2 rounded-full">1. Application Stage</span>
+<span class="bg-[#ffb700] text-black text-[12px] font-black px-4 py-2 rounded-full">2. Visa Stage</span>
 </div>
-<button onclick="applyVisa()" class="mt-6 bg-[#0a1931] text-white font-black px-8 py-3.5 rounded-xl text-[14px]">Submit Application</button>
-<p id="visaMsg" class="text-[13px] font-bold text-green-700 mt-4"></p>
+<div class="grid md:grid-cols-3 gap-4 mt-6 text-[13px]">
+<div class="border-2 rounded-xl p-4"><b>Documentation</b><p class="text-gray-500 mt-1">Passport, Ghana Card, Photos, Bank statement</p></div>
+<div class="border-2 rounded-xl p-4"><b>Study Permit / Fees</b><p class="text-gray-500 mt-1">Pay Visa Fee after Application Fee clear</p></div>
+<div class="border-2 rounded-xl p-4"><b>Visa Confirmation</b><p class="text-gray-500 mt-1">Successful / Unsuccessful — agent go update am</p></div>
+</div>
+<button onclick="openChat()" class="mt-6 bg-green-600 text-white font-black px-7 py-3 rounded-xl text-[13px]"><i class="fa-solid fa-comments"></i> Live Chat My Agent</button>
+<button onclick="showPage('dashboard')" class="mt-6 ml-2 bg-[#0a1931] text-white font-black px-7 py-3 rounded-xl text-[13px]">Go My Dashboard</button>
 </div>
 </div>
 </div>
@@ -266,6 +269,12 @@
 <p id="authMsg" class="text-[13px] font-bold text-green-700 mt-4"></p>
 </div>
 </div>
+ <button onclick="openChat()" class="fixed bottom-5 right-5 z-[90] bg-green-600 text-white w-14 h-14 rounded-full shadow-2xl text-[22px]"><i class="fa-solid fa-comments"></i></button>
+<div id="chatBox" class="hidden fixed bottom-24 right-5 z-[95] w-[340px] max-w-[92vw] bg-white rounded-[20px] shadow-2xl overflow-hidden">
+<div class="bg-[#0a1931] text-white p-4 flex justify-between items-center"><b>Live Chat — Kratis Premium</b><button onclick="openChat()" class="text-xl font-black">×</button></div>
+<div id="chatMsgs" class="h-[280px] overflow-y-auto p-4 space-y-3 bg-[#f5f7fb] text-[13px]"></div>
+<div class="flex gap-2 p-3 border-t"><input id="chatInput" placeholder="Type message..." class="flex-1 border-2 rounded-full px-4 py-2.5 text-[13px]" onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()" class="bg-[#ffb700] text-black font-black px-5 rounded-full text-[13px]">Send</button></div>
+</div> 
 <script>
 const STUDY_COUNTRIES=["USA","Canada","Australia","New Zealand","UK","Finland","Norway","Sweden"];
 function $(id){return document.getElementById(id)}
@@ -344,5 +353,22 @@ $('loginBtn').onclick=()=>u?showPage('dashboard'):openAuth('client');
 function logout(){localStorage.removeItem('kratis_user');updateLoginBtn();showPage('home');}
 function renderCountries(){$('visaCountries').innerHTML=STUDY_COUNTRIES.map(n=>`<div class="bg-white rounded-2xl shadow p-6"><div class="font-black text-[18px]">${n}</div><button onclick="showPage('dashboard')" class="mt-4 bg-[#ffb700] text-black text-[12px] font-black px-5 py-2 rounded-full">Continue in Dashboard</button></div>`).join('');}
 function applyVisa(){showPage('dashboard');}
+function openChat(){$('chatBox').classList.toggle('hidden');renderChat();}
+function renderChat(){
+let u=JSON.parse(localStorage.getItem('kratis_user')||'null');
+let msgs=JSON.parse(localStorage.getItem('kratis_chat')||'[]');
+$('chatMsgs').innerHTML=msgs.map(m=>`<div class="${m.from===u?.id?'bg-[#0a1931] text-white ml-8':'bg-white mr-8'} rounded-2xl p-3 shadow"><b class="text-[11px]">${m.name}</b><br>${m.text}</div>`).join('')||'<div class="bg-white rounded-2xl p-3">Hello! Welcome to Kratis Premium Live Chat. How can we help you today?</div>';
+$('chatMsgs').scrollTop=9999;
+}
+function sendChat(){
+let u=JSON.parse(localStorage.getItem('kratis_user')||'null');
+if(!u){alert('Log in / Get Started first before chat');openAuth('client');return;}
+let t=$('chatInput').value.trim();if(!t)return;
+let msgs=JSON.parse(localStorage.getItem('kratis_chat')||'[]');
+msgs.push({from:u.id,name:u.name,text:t,time:Date.now()});
+msgs.push({from:'agent',name:'Kratis Agent',text:'Thank you '+u.name.split(' ')[0]+'! We receive your message. Your agent go reply you soon.',time:Date.now()});
+localStorage.setItem('kratis_chat',JSON.stringify(msgs));
+$('chatInput').value='';renderChat();
+}  
 updateLoginBtn();renderCountries();
 </script>
