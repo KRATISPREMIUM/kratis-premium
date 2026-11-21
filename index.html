@@ -19,7 +19,9 @@
 <a onclick="showPage('visa')" class="hover:text-[#ffb700] cursor-pointer">Visa</a>
 <a onclick="showPage('manage')" class="hover:text-[#ffb700] cursor-pointer">Manage Booking</a>
 </nav></div>
-<div class="flex gap-4 items-center"><span class="text-white text-[13px]">EN</span><button id="loginBtn" onclick="openLogin()" class="bg-[#ffb700] text-black font-black text-[13px] px-6 py-2.5 rounded-full">Log in / Sign up</button></div>
+<div class="flex gap-4 items-center"><span class="text-white text-[13px]">EN</span><button onclick="openAuth('client')" class="bg-[#ffb700] text-black font-black text-[13px] px-5 py-2.5 rounded-full">Get Started</button>
+<button onclick="openAuth('agent')" class="bg-white text-black font-black text-[13px] px-5 py-2.5 rounded-full">Agent Register</button>
+<button id="loginBtn" onclick="openAuth('client')" class="text-white font-bold text-[13px] px-2">Log in</button></div>
 </div>
 </header>
 
@@ -224,51 +226,123 @@
 <div class="max-w-[1400px] mx-auto px-6 py-12 grid md:grid-cols-4 gap-10 border-t border-white/10"><div><div class="flex items-center gap-2"><img src="real removed background.png" class="h-8 bg-white rounded p-1"><span class="font-black text-white">KRATIS PREMIUM</span></div><p class="text-[13px] text-slate-400 mt-4">KRATIS PREMIUM TRAVEL<br>CEO Philisam Kwabena Addo<br>0558228524 / 0598456839<br>travel@kratispremium.com<br>Amasaman, Accra</p></div><div><div class="font-black text-white">Products</div><div class="mt-4 space-y-2 text-[13px] text-slate-400"><p>Flights</p><p>Hotels</p><p>Packages</p><p>Tours</p><p>Visa</p></div></div><div><div class="font-black text-white">Support</div><div class="mt-4 space-y-2 text-[13px] text-slate-400"><p>Help Centre</p><p>Contact Us</p><p>Manage Booking</p></div></div><div><div class="font-black text-white">Company</div><div class="mt-4 space-y-2 text-[13px] text-slate-400"><p>About</p><p>Blog</p><p>Refer</p></div></div></div>
 <div class="max-w-[1400px] mx-auto px-6 py-6 border-t border-white/10 text-[11px] text-slate-500">© 2026 Kratis Premium - CEO 0558228524 - No Pay Small Small</div>
 </section>
+<!-- DASHBOARD PAGE -->
+<div id="dashboard-page" class="hidden max-w-[1200px] mx-auto px-6 py-10">
+<button onclick="showPage('home')" class="text-[12px] font-bold text-gray-500">← Back to Home</button>
+<div id="dashContent" class="mt-6"></div>
+</div>
 
+<!-- AUTH MODAL -->
+<div id="authModal" class="hidden fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4">
+<div class="bg-white w-full max-w-[560px] rounded-[20px] max-h-[92vh] overflow-y-auto p-7">
+<div class="flex justify-between items-center"><h3 id="authTitle" class="font-black text-[20px] text-[#0a1931]">Client Get Started</h3><button onclick="closeAuth()" class="text-2xl font-black">×</button></div>
+
+<!-- CLIENT FORM -->
+<form id="clientForm" onsubmit="submitClient(event)" class="grid grid-cols-2 gap-3 mt-5">
+<input required id="cName" placeholder="Full Name" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<input required id="cAge" type="number" placeholder="Age" class="border-2 rounded-xl px-4 py-3">
+<select id="cMarital" class="border-2 rounded-xl px-4 py-3"><option>Single</option><option>Married</option><option>Divorced</option></select>
+<input required id="cAddress" placeholder="Residential Address" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<input required id="cGhana" placeholder="Ghana Card Number" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<input required id="cContact" placeholder="Phone / Email" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<select id="cInterest" onchange="interestChange()" class="border-2 rounded-xl px-4 py-3 col-span-2"><option>Study</option><option>Work</option><option>Visit</option><option>Other</option></select>
+<select id="cLevel" class="border-2 rounded-xl px-4 py-3"><option>Undergraduate</option><option>Masters</option><option>Other</option></select>
+<select id="cCountry" class="border-2 rounded-xl px-4 py-3"></select>
+<button class="col-span-2 bg-[#ffb700] text-black font-black py-3.5 rounded-xl mt-2">Create My Account → Dashboard</button>
+</form>
+
+<!-- AGENT FORM -->
+<form id="agentForm" onsubmit="submitAgent(event)" class="hidden grid-cols-2 gap-3 mt-5">
+<input required id="aName" placeholder="Full Name" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<input required id="aAge" type="number" placeholder="Age" class="border-2 rounded-xl px-4 py-3">
+<select id="aMarital" class="border-2 rounded-xl px-4 py-3"><option>Single</option><option>Married</option><option>Divorced</option></select>
+<input required id="aAddress" placeholder="Residential Address" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<input required id="aGhana" placeholder="Ghana Card Number" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<input required id="aEdu" placeholder="Educational Qualification" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<label class="col-span-2 border-2 border-dashed rounded-xl px-4 py-3 text-[13px] font-bold text-gray-500">Proof of Previous Work (upload)<input id="aProof" type="file" class="block mt-2 text-[12px]"></label>
+<input required id="aContact" placeholder="Phone / Email" class="border-2 rounded-xl px-4 py-3 col-span-2">
+<button class="col-span-2 bg-[#0a1931] text-white font-black py-3.5 rounded-xl mt-2">Register as Agent → Dashboard</button>
+</form>
+<p id="authMsg" class="text-[13px] font-bold text-green-700 mt-4"></p>
+</div>
+</div>
 <script>
-const COUNTRIES=[
-{n:"USA",d:"Study / Work / Visit",t:"15-30 days",f:"From GHS 2,500"},
-{n:"Canada",d:"Study / Work / Visit",t:"30-60 days",f:"From GHS 2,800"},
-{n:"UK",d:"Study / Visit",t:"15-21 days",f:"From GHS 2,200"},
-{n:"Australia",d:"Study / Visit",t:"20-40 days",f:"From GHS 2,600"},
-{n:"Finland",d:"Study",t:"30-45 days",f:"From GHS 2,400"},
-{n:"Norway",d:"Study",t:"30-45 days",f:"From GHS 2,400"},
-{n:"Sweden",d:"Study",t:"30-45 days",f:"From GHS 2,400"},
-{n:"New Zealand",d:"Study / Visit",t:"20-35 days",f:"From GHS 2,500"}];
+const STUDY_COUNTRIES=["USA","Canada","Australia","New Zealand","UK","Finland","Norway","Sweden"];
+function $(id){return document.getElementById(id)}
 function showPage(page){
-['home','flights','hotels','packages','tours','visa','manage'].forEach(p=>document.getElementById(p+'-page').classList.add('hidden'));
-document.getElementById(page+'-page').classList.remove('hidden');
+['home','flights','hotels','packages','tours','visa','manage','dashboard'].forEach(p=>$(p+'-page').classList.add('hidden'));
+$(page+'-page').classList.remove('hidden');
 if(page==='visa') checkVisaAccess();
+if(page==='dashboard') renderDashboard();
 window.scrollTo(0,0);
 }
+function openAuth(role){
+$('authModal').classList.remove('hidden');
+$('clientForm').classList.toggle('hidden',role!=='client');
+$('clientForm').classList.toggle('grid',role==='client');
+$('agentForm').classList.toggle('hidden',role!=='agent');
+$('agentForm').classList.toggle('grid',role==='agent');
+$('authTitle').innerText=role==='client'?'Client Get Started':'Agent Registration';
+interestChange();
+}
+function closeAuth(){$('authModal').classList.add('hidden')}
+function interestChange(){
+let i=$('cInterest').value, c=$('cCountry');
+if(i==='Work'){c.innerHTML='<option>Canada</option>';$('cLevel').style.display='none';}
+else{c.innerHTML=STUDY_COUNTRIES.map(x=>`<option>${x}</option>`).join('');$('cLevel').style.display=i==='Study'?'block':'none';}
+}
+function genID(p){return p+'-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000)}
+function submitClient(e){
+e.preventDefault();
+let u={role:'client',id:genID('KP-CL'),name:$('cName').value,age:$('cAge').value,marital:$('cMarital').value,address:$('cAddress').value,ghana:$('cGhana').value,contact:$('cContact').value,interest:$('cInterest').value,level:$('cLevel').value,country:$('cCountry').value,status:'Application Fee',stage:'Application Stage'};
+localStorage.setItem('kratis_user',JSON.stringify(u));
+let all=JSON.parse(localStorage.getItem('kratis_clients')||'[]');all.push(u);localStorage.setItem('kratis_clients',JSON.stringify(all));
+closeAuth();updateLoginBtn();showPage('dashboard');
+}
+function submitAgent(e){
+e.preventDefault();
+let u={role:'agent',id:genID('KP-AG'),name:$('aName').value,age:$('aAge').value,marital:$('aMarital').value,address:$('aAddress').value,ghana:$('aGhana').value,edu:$('aEdu').value,contact:$('aContact').value};
+localStorage.setItem('kratis_user',JSON.stringify(u));
+closeAuth();updateLoginBtn();showPage('dashboard');
+}
 function checkVisaAccess(){
-let u=localStorage.getItem('kratis_user');
-document.getElementById('visa-locked').classList.toggle('hidden',!!u);
-document.getElementById('visa-unlocked').classList.toggle('hidden',!u);
-if(u){document.getElementById('visaUserName').innerText=JSON.parse(u).name;renderCountries();}
+let u=JSON.parse(localStorage.getItem('kratis_user')||'null');
+if(!u){$('visa-locked').classList.remove('hidden');$('visa-unlocked').classList.add('hidden');return;}
+$('visa-locked').classList.add('hidden');$('visa-unlocked').classList.remove('hidden');
+$('visaUserName').innerText=u.name;
 }
-function renderCountries(){
-document.getElementById('visaCountries').innerHTML=COUNTRIES.map(c=>`<div class="bg-white rounded-2xl shadow p-6"><div class="font-black text-[18px] text-[#0a1931]">${c.n}</div><div class="text-[12px] text-gray-500 mt-2">${c.d}</div><div class="text-[12px] mt-2"><i class="fa-regular fa-clock"></i> ${c.t}</div><div class="font-black text-[#0e59e0] mt-3">${c.f}</div><button onclick="document.getElementById('vCountry').value='${c.n}'" class="mt-4 bg-[#ffb700] text-black text-[12px] font-black px-5 py-2 rounded-full">Select</button></div>`).join('');
+function renderDashboard(){
+let u=JSON.parse(localStorage.getItem('kratis_user')||'null');
+if(!u){$('dashContent').innerHTML='<div class="bg-white rounded-2xl shadow p-10 text-center font-black">Log in first</div>';return;}
+if(u.role==='client'){
+$('dashContent').innerHTML=`
+<div class="bg-[#0a1931] text-white rounded-[20px] p-7"><div class="text-[12px] text-[#ffb700] font-black">MY ACCOUNT + DASHBOARD</div><h2 class="text-[26px] font-black mt-2">${u.name}</h2><div class="text-[13px] text-[#b0c4de]">${u.id} • ${u.interest} • ${u.country}</div></div>
+<div class="grid md:grid-cols-3 gap-5 mt-6">
+<div class="bg-white rounded-2xl shadow p-6"><div class="text-[12px] font-black text-gray-400">CLIENT STATUS</div><div class="font-black text-[18px] text-[#0e59e0] mt-2">${u.status}</div><div class="text-[12px] text-gray-500 mt-2">${u.stage}</div></div>
+<div class="bg-white rounded-2xl shadow p-6"><div class="text-[12px] font-black text-gray-400">MY AGENT</div><div class="font-bold mt-2">Awaiting Agent Assignment</div><button class="mt-3 bg-gray-100 px-4 py-2 rounded-full text-[12px] font-bold">Chat / Call</button></div>
+<div class="bg-white rounded-2xl shadow p-6"><div class="text-[12px] font-black text-gray-400">MY APPOINTMENT</div><button onclick="alert('Appointment: select date & time, make payment first')" class="mt-3 bg-[#ffb700] text-black px-5 py-2 rounded-full text-[12px] font-black">Book Appointment</button></div>
+</div>
+<div class="bg-white rounded-2xl shadow p-6 mt-6"><b>Visa Stage</b><div class="text-[13px] text-gray-500 mt-2">Documentation → Study Permit / Fees → Visa Confirmation</div><button onclick="showPage('visa')" class="mt-4 bg-[#0a1931] text-white px-6 py-2.5 rounded-full text-[12px] font-black">Open Visa Stage</button></div>`;
+}else{
+let clients=JSON.parse(localStorage.getItem('kratis_clients')||'[]');
+$('dashContent').innerHTML=`
+<div class="bg-[#0a1931] text-white rounded-[20px] p-7"><div class="text-[12px] text-[#ffb700] font-black">AGENT DASHBOARD</div><h2 class="text-[26px] font-black mt-2">${u.name}</h2><div class="text-[13px] text-[#b0c4de]">${u.id}</div></div>
+<div class="grid md:grid-cols-3 gap-5 mt-6">
+<div class="bg-white rounded-2xl shadow p-6"><div class="text-[12px] font-black text-gray-400">TOTAL CLIENTS</div><div class="text-[28px] font-black">${clients.length}</div></div>
+<div class="bg-white rounded-2xl shadow p-6"><div class="text-[12px] font-black text-gray-400">COMPLETED CLIENTS</div><div class="text-[28px] font-black">${clients.filter(c=>c.status==='Success').length}</div></div>
+<div class="bg-white rounded-2xl shadow p-6"><div class="text-[12px] font-black text-gray-400">CONTACT CEO</div><button class="mt-2 bg-[#ffb700] px-4 py-2 rounded-full text-[12px] font-black">Chat / Call CEO</button></div>
+</div>
+<div class="bg-white rounded-2xl shadow p-6 mt-6"><b>My Clients</b>${clients.map(c=>`<div class="flex justify-between border-t py-3 mt-2"><span><b>${c.name}</b> • ${c.id} • ${c.country}</span><span class="font-bold text-[#0e59e0]">${c.status}</span></div>`).join('')||'<p class="text-gray-400 text-[13px] mt-3">No clients yet</p>'}</div>
+<div class="bg-white rounded-2xl shadow p-6 mt-6"><b>Agent Payment Method</b><div class="grid md:grid-cols-4 gap-3 mt-4"><input placeholder="Bank Account" class="border-2 rounded-xl px-3 py-2.5"><input placeholder="MTN MoMo" class="border-2 rounded-xl px-3 py-2.5"><input placeholder="AirtelTigo" class="border-2 rounded-xl px-3 py-2.5"><input placeholder="Vodafone Cash" class="border-2 rounded-xl px-3 py-2.5"></div></div>`;
 }
-function openLogin(){
-let n=prompt("Enter your full name (Client Get Started):");
-if(!n) return;
-let e=prompt("Enter your email:");
-if(!e) return;
-localStorage.setItem('kratis_user',JSON.stringify({name:n,email:e}));
-updateLoginBtn(); showPage('visa');
-alert("Login success! Welcome "+n+" — Visa page unlock.");
 }
-function logout(){localStorage.removeItem('kratis_user');updateLoginBtn();showPage('visa');}
 function updateLoginBtn(){
-let u=localStorage.getItem('kratis_user');
-document.getElementById('loginBtn').innerText=u?("Hi, "+JSON.parse(u).name.split(' ')[0]):"Log in / Sign up";
+let u=JSON.parse(localStorage.getItem('kratis_user')||'null');
+$('loginBtn').innerText=u?('Hi, '+u.name.split(' ')[0]+' — Dashboard'):'Log in';
+$('loginBtn').onclick=()=>u?showPage('dashboard'):openAuth('client');
 }
-function applyVisa(){
-let u=JSON.parse(localStorage.getItem('kratis_user'));
-let a={name:u.name,email:u.email,country:document.getElementById('vCountry').value,type:document.getElementById('vType').value,date:document.getElementById('vDate').value,stage:"Application Fee",time:Date.now()};
-let all=JSON.parse(localStorage.getItem('visa_apps')||'[]');all.push(a);localStorage.setItem('visa_apps',JSON.stringify(all));
-document.getElementById('visaMsg').innerText="Success! Application received for "+a.country+" ("+a.type+"). Your agent go contact you. Stage: Application Fee.";
-}
-updateLoginBtn();
+function logout(){localStorage.removeItem('kratis_user');updateLoginBtn();showPage('home');}
+function renderCountries(){$('visaCountries').innerHTML=STUDY_COUNTRIES.map(n=>`<div class="bg-white rounded-2xl shadow p-6"><div class="font-black text-[18px]">${n}</div><button onclick="showPage('dashboard')" class="mt-4 bg-[#ffb700] text-black text-[12px] font-black px-5 py-2 rounded-full">Continue in Dashboard</button></div>`).join('');}
+function applyVisa(){showPage('dashboard');}
+updateLoginBtn();renderCountries();
 </script>
