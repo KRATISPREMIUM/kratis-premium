@@ -19,7 +19,7 @@
 <a onclick="showPage('visa')" class="hover:text-[#ffb700] cursor-pointer">Visa</a>
 <a onclick="showPage('manage')" class="hover:text-[#ffb700] cursor-pointer">Manage Booking</a>
 </nav></div>
-<div class="flex gap-4 items-center"><span class="text-white text-[13px]">EN</span><button class="bg-[#ffb700] text-black font-black text-[13px] px-6 py-2.5 rounded-full">Log in / Sign up</button></div>
+<div class="flex gap-4 items-center"><span class="text-white text-[13px]">EN</span><button id="loginBtn" onclick="openLogin()" class="bg-[#ffb700] text-black font-black text-[13px] px-6 py-2.5 rounded-full">Log in / Sign up</button></div>
 </div>
 </header>
 
@@ -154,8 +154,45 @@
 </div>
 <div class="h-[250px] bg-white mt-8"></div>
 </div>
-<div id="visa-page" class="hidden"><section class="bg-[#0a1931] py-16 text-center"><h1 class="text-white text-[32px] font-black">Visa Services</h1><button onclick="showPage('home')" class="mt-6 bg-[#ffb700] text-black px-6 py-2 rounded-full font-bold">Back to Home</button></section></div>
+<div id="visa-page" class="hidden">
+<section class="bg-[#0a1931] py-16 text-center px-6">
+<h1 class="text-white text-[32px] font-black">Visa Services</h1>
+<p class="text-[#b0c4de] text-[14px] mt-3">Study / Work / Visit — USA, Canada, UK, Australia, Finland, Norway, Sweden, New Zealand</p>
+<button onclick="showPage('home')" class="mt-6 bg-white/10 text-white px-6 py-2 rounded-full font-bold text-[13px]">Back to Home</button>
+</section>
 
+<!-- LOCKED: NO LOGIN -->
+<div id="visa-locked" class="max-w-[600px] mx-auto px-6 py-16 text-center">
+<div class="w-16 h-16 bg-[#0a1931] rounded-full mx-auto flex items-center justify-center"><i class="fa-solid fa-lock text-[#ffb700] text-[24px]"></i></div>
+<h2 class="font-black text-[24px] text-[#0a1931] mt-5">Visa page na for registered clients only</h2>
+<p class="text-[14px] text-gray-500 mt-3">Log in or create your Client Account first. After login, you go see countries, documents, fees, and apply.</p>
+<button onclick="openLogin()" class="mt-7 bg-[#ffb700] text-black font-black px-8 py-3.5 rounded-full text-[14px]">Log in to Continue</button>
+<p class="text-[12px] text-gray-400 mt-4">No account? Click Log in / Sign up for top — Get Started form go open.</p>
+</div>
+
+<!-- UNLOCKED: AFTER LOGIN -->
+<div id="visa-unlocked" class="hidden max-w-[1400px] mx-auto px-6 py-12">
+<div class="bg-green-50 border border-green-200 rounded-2xl p-5 flex justify-between items-center flex-wrap gap-3">
+<div><div class="font-black text-green-800 text-[15px]">Welcome, <span id="visaUserName">Client</span></div><div class="text-[12px] text-green-700">Your Visa Stage: <b>Application Fee</b> — complete am to move to Visa Fee stage</div></div>
+<button onclick="logout()" class="bg-white border px-5 py-2 rounded-full text-[12px] font-bold">Log out</button>
+</div>
+
+<h2 class="font-black text-[24px] text-[#0a1931] mt-10">Choose your country</h2>
+<div class="grid md:grid-cols-4 gap-5 mt-6" id="visaCountries"></div>
+
+<div class="bg-white rounded-[20px] shadow p-7 mt-10">
+<h3 class="font-black text-[20px] text-[#0a1931]">Apply for Visa</h3>
+<p class="text-[13px] text-gray-500 mt-1">Fill am — your agent go see am for dashboard.</p>
+<div class="grid md:grid-cols-3 gap-4 mt-6">
+<select id="vCountry" class="border-2 rounded-xl px-4 py-3 text-[14px]"><option>USA</option><option>Canada</option><option>UK</option><option>Australia</option><option>Finland</option><option>Norway</option><option>Sweden</option><option>New Zealand</option></select>
+<select id="vType" class="border-2 rounded-xl px-4 py-3 text-[14px]"><option>Study</option><option>Work</option><option>Visit</option></select>
+<input id="vDate" type="date" class="border-2 rounded-xl px-4 py-3 text-[14px]">
+</div>
+<button onclick="applyVisa()" class="mt-6 bg-[#0a1931] text-white font-black px-8 py-3.5 rounded-xl text-[14px]">Submit Application</button>
+<p id="visaMsg" class="text-[13px] font-bold text-green-700 mt-4"></p>
+</div>
+</div>
+</div>
 <!-- MANAGE BOOKING PAGE - EXACT FROM YOUR VIDEO -->
 <div id="manage-page" class="hidden">
 <div class="bg-[#0a1931] min-h-[500px] flex items-center">
@@ -189,21 +226,49 @@
 </section>
 
 <script>
+const COUNTRIES=[
+{n:"USA",d:"Study / Work / Visit",t:"15-30 days",f:"From GHS 2,500"},
+{n:"Canada",d:"Study / Work / Visit",t:"30-60 days",f:"From GHS 2,800"},
+{n:"UK",d:"Study / Visit",t:"15-21 days",f:"From GHS 2,200"},
+{n:"Australia",d:"Study / Visit",t:"20-40 days",f:"From GHS 2,600"},
+{n:"Finland",d:"Study",t:"30-45 days",f:"From GHS 2,400"},
+{n:"Norway",d:"Study",t:"30-45 days",f:"From GHS 2,400"},
+{n:"Sweden",d:"Study",t:"30-45 days",f:"From GHS 2,400"},
+{n:"New Zealand",d:"Study / Visit",t:"20-35 days",f:"From GHS 2,500"}];
 function showPage(page){
-document.getElementById('home-page').classList.add('hidden');
-document.getElementById('flights-page').classList.add('hidden');
-document.getElementById('hotels-page').classList.add('hidden');
-document.getElementById('packages-page').classList.add('hidden');
-document.getElementById('tours-page').classList.add('hidden');
-document.getElementById('visa-page').classList.add('hidden');
-document.getElementById('manage-page').classList.add('hidden');
-if(page==='home') document.getElementById('home-page').classList.remove('hidden');
-if(page==='flights') document.getElementById('flights-page').classList.remove('hidden');
-if(page==='hotels') document.getElementById('hotels-page').classList.remove('hidden');
-if(page==='packages') document.getElementById('packages-page').classList.remove('hidden');
-if(page==='tours') document.getElementById('tours-page').classList.remove('hidden');
-if(page==='visa') document.getElementById('visa-page').classList.remove('hidden');
-if(page==='manage') document.getElementById('manage-page').classList.remove('hidden');
+['home','flights','hotels','packages','tours','visa','manage'].forEach(p=>document.getElementById(p+'-page').classList.add('hidden'));
+document.getElementById(page+'-page').classList.remove('hidden');
+if(page==='visa') checkVisaAccess();
 window.scrollTo(0,0);
 }
+function checkVisaAccess(){
+let u=localStorage.getItem('kratis_user');
+document.getElementById('visa-locked').classList.toggle('hidden',!!u);
+document.getElementById('visa-unlocked').classList.toggle('hidden',!u);
+if(u){document.getElementById('visaUserName').innerText=JSON.parse(u).name;renderCountries();}
+}
+function renderCountries(){
+document.getElementById('visaCountries').innerHTML=COUNTRIES.map(c=>`<div class="bg-white rounded-2xl shadow p-6"><div class="font-black text-[18px] text-[#0a1931]">${c.n}</div><div class="text-[12px] text-gray-500 mt-2">${c.d}</div><div class="text-[12px] mt-2"><i class="fa-regular fa-clock"></i> ${c.t}</div><div class="font-black text-[#0e59e0] mt-3">${c.f}</div><button onclick="document.getElementById('vCountry').value='${c.n}'" class="mt-4 bg-[#ffb700] text-black text-[12px] font-black px-5 py-2 rounded-full">Select</button></div>`).join('');
+}
+function openLogin(){
+let n=prompt("Enter your full name (Client Get Started):");
+if(!n) return;
+let e=prompt("Enter your email:");
+if(!e) return;
+localStorage.setItem('kratis_user',JSON.stringify({name:n,email:e}));
+updateLoginBtn(); showPage('visa');
+alert("Login success! Welcome "+n+" — Visa page unlock.");
+}
+function logout(){localStorage.removeItem('kratis_user');updateLoginBtn();showPage('visa');}
+function updateLoginBtn(){
+let u=localStorage.getItem('kratis_user');
+document.getElementById('loginBtn').innerText=u?("Hi, "+JSON.parse(u).name.split(' ')[0]):"Log in / Sign up";
+}
+function applyVisa(){
+let u=JSON.parse(localStorage.getItem('kratis_user'));
+let a={name:u.name,email:u.email,country:document.getElementById('vCountry').value,type:document.getElementById('vType').value,date:document.getElementById('vDate').value,stage:"Application Fee",time:Date.now()};
+let all=JSON.parse(localStorage.getItem('visa_apps')||'[]');all.push(a);localStorage.setItem('visa_apps',JSON.stringify(all));
+document.getElementById('visaMsg').innerText="Success! Application received for "+a.country+" ("+a.type+"). Your agent go contact you. Stage: Application Fee.";
+}
+updateLoginBtn();
 </script>
